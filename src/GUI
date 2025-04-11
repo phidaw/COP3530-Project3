@@ -1,0 +1,53 @@
+/*Notes(To-do):
+-in-addition to a section dedicated to the maze, there needs to be a option to select one or more algorithms to run at the same time. 
+Along with an option to select which traversal mode should be used
+-if going to do collectables, need a way to animate the agents movement
+*/
+//Right now this is just old code for me to decipher to get SFML buttons and graphics working
+
+#include <SFML/Graphics.hpp>
+#include <functional>
+#include <SFML/Graphics.hpp>
+
+class Button {
+
+    friend class Tile;
+    friend class GameState;
+    friend class Toolbox;
+    friend class minesweeper;
+
+    sf::Sprite* sprite;
+    sf::Vector2f position;
+    std::function<void(void)> clicky;
+public:
+    Button(sf::Vector2f pos, std::function<void(void)> onClick);
+    sf::Vector2f getPosition();
+    sf::Sprite* getSprite();
+    void setSprite(sf::Sprite* new_sprite);
+    void onClick();
+};
+
+Button::Button(sf::Vector2f pos, std::function<void()> onClick) {
+    position = pos;
+    clicky = onClick;
+    sprite = nullptr;
+}
+sf::Vector2f Button::getPosition() {
+    return position;
+}
+sf::Sprite* Button::getSprite() {
+    return sprite;
+}
+void Button::setSprite(sf::Sprite *new_sprite) {
+    sprite = new_sprite;
+}
+void Button::onClick() {
+    if (clicky) {
+        clicky();
+    }
+}
+///////
+//No longer button class
+window.create(sf::VideoMode(800, 600), "Title");
+debugButton = new Button(sf::Vector2f(20, 515), [this]->{foo();});
+                                    //pos^
