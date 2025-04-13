@@ -23,3 +23,8 @@ add_executable(P3
         src/Maze/Example/main.cpp
         ${SOURCES}
 )
+
+add_executable(A-Star src/TraversalAlgorithms/A-star/Example/main.cpp
+        ${SOURCES}
+        src/TraversalAlgorithms/A-star/A-star.h
+)
