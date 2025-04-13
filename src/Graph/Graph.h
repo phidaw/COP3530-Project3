@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_set>
 #include "../Tools/Array2D/Array2D.h"
+#include "../Tools/Array2D/CellArray2D.h"
 #include "Cell.h"
 
 using std::unordered_set;
@@ -22,7 +23,7 @@ class Graph
     void CreateCells();
     void CreateEdges();
 public:
-    Array2D<Cell> cells;
+    CellArray2D<Cell> cells;
     Array2D<Position> vertices;
     unordered_set<Edge*> edges;
 
@@ -33,6 +34,7 @@ public:
     // accessors
     Cell* GetCell(int x, int y);
     Position* GetNode(int x, int y);
+    static Edge* GetSharedEdge(Cell* fCell, Cell* nCell);
     // unordered_set<Edge*> GetInnerEdges() const;
 
     int GetCellNum() const { return cellNum; }

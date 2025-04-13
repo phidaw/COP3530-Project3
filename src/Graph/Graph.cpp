@@ -104,6 +104,25 @@ Position* Graph::GetNode(int x, int y)
     return nullptr;
 }
 
+Edge* Graph::GetSharedEdge(Cell* fCell, Cell* nCell)
+{
+    int fx = fCell->pos->x;
+    int fy = fCell->pos->y;
+    int nx = nCell->pos->x;
+    int ny = nCell->pos->y;
+
+    if (fx > nx)
+        return fCell->edges[Cell::CardinalDir::West];
+    if (fx < nx)
+        return fCell->edges[Cell::CardinalDir::East];
+    if (fy > ny)
+        return fCell->edges[Cell::CardinalDir::North];
+    if (fy < ny)
+        return fCell->edges[Cell::CardinalDir::South];
+
+    return nullptr;
+}
+
 // unordered_set<Edge*> Graph::GetInnerEdges() const
 // {
 //     unordered_set<Edge*> innerEdges(edges);

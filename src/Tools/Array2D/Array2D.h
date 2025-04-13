@@ -7,7 +7,7 @@
 template <class T>
 class Array2D
 {
-private:
+protected:
     T* arr;
     const int width;
     const int height;
@@ -28,7 +28,7 @@ public:
     {
         arr = new T[size];
     }
-    ~Array2D()
+    virtual ~Array2D()
     {
         delete[] arr;
     }

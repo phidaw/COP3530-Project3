@@ -43,24 +43,6 @@ Cell* Prim::SelectRandomNeighbor(vector<Cell*>& visitedNeighbors)
 
     return inNeighbor;
 }
-Edge* Prim::GetSharedEdge(Cell* fCell, Cell* nCell)
-{
-    int fx = fCell->pos->x;
-    int fy = fCell->pos->y;
-    int nx = nCell->pos->x;
-    int ny = nCell->pos->y;
-
-    if (fx > nx)
-        return fCell->edges[Cell::CardinalDir::West];
-    if (fx < nx)
-        return fCell->edges[Cell::CardinalDir::East];
-    if (fy > ny)
-        return fCell->edges[Cell::CardinalDir::North];
-    if (fy < ny)
-        return fCell->edges[Cell::CardinalDir::South];
-
-    return nullptr;
-}
 
 /**
  * choose an arbitrary vertex from Graph, G, and add it to some (initially empty) visited set, S.
@@ -101,7 +83,7 @@ unordered_set<Edge*> Prim::CreateMaze(Graph& graph)
         Cell* inNeighbor = SelectRandomNeighbor(visitedNeighbors);
 
         // carve passage
-        maze.erase(GetSharedEdge(frontierCell, inNeighbor));
+        maze.erase(Graph::GetSharedEdge(frontierCell, inNeighbor));
 
         // remove cell from frontier (can be done "out of order")
         std::swap(frontier[cellIndex], frontier[frontier.size()-1]);

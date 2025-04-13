@@ -17,14 +17,16 @@ set(SOURCES src/Graph/Cell.h
         src/Maze/Prim.cpp
         src/Maze/Prim.h
         src/Tools/Array2D/Array2D.h
+        src/Tools/Array2D/CellArray2D.h
+        src/Tools/Array2D/CellArray2D.cpp
 )
 
-add_executable(P3
-        src/Maze/Example/main.cpp
+add_executable(P3 src/Maze/Example/main.cpp
         ${SOURCES}
 )
 
 add_executable(A-Star src/TraversalAlgorithms/A-star/Example/main.cpp
         ${SOURCES}
-        src/TraversalAlgorithms/A-star/A-star.h
+        src/TraversalAlgorithms/A-star/A_Star.h
+        src/TraversalAlgorithms/A-star/A_Star.cpp
 )
