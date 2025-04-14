@@ -17,7 +17,6 @@ struct Prim
         vector<Cell*>& frontier, unordered_set<Cell*> visited);
 
     static Cell* SelectRandomNeighbor(vector<Cell*>& visitedNeighbors);
-    static Edge* GetSharedEdge(Cell* fCell, Cell* nCell);
 
     // produces a non-uniform min. span. tree of graph's edges
     static unordered_set<Edge*> CreateMaze(Graph& graph);

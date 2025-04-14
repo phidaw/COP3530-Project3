@@ -23,8 +23,8 @@ class Graph
     void CreateCells();
     void CreateEdges();
 public:
-    CellArray2D<Cell> cells;
     Array2D<Position> vertices;
+    CellArray2D cells;
     unordered_set<Edge*> edges;
 
     // construction / destruction
@@ -34,7 +34,6 @@ public:
     // accessors
     Cell* GetCell(int x, int y);
     Position* GetNode(int x, int y);
-    static Edge* GetSharedEdge(Cell* fCell, Cell* nCell);
     // unordered_set<Edge*> GetInnerEdges() const;
 
     int GetCellNum() const { return cellNum; }

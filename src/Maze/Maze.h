@@ -53,4 +53,15 @@ struct Maze
         end = nullptr;
         CreateEntrances();
     }
+
+    // check if conjoining edge is within maze's walls
+    // if not, then there's a path between cells
+    bool CheckIfBlocked(Cell* from, Cell* to) const
+    {
+        Edge* edge = from->GetSharedEdge(to);
+        if (edge && walls.count(edge) != 0)
+            return true;
+
+        return false;
+    }
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 // https://stackoverflow.com/questions/61680/how-to-work-around-a-very-large-2d-array-in-c
 
@@ -8,10 +9,10 @@ template <class T>
 class Array2D
 {
 protected:
-    T* arr;
     const int width;
     const int height;
     const int size;
+    std::vector<T*> arr;
 
     void ThrowException() const
     {
@@ -24,29 +25,28 @@ protected:
         return !(x < 0 || y < 0 || x >= width || y >= height);
     }
 public:
-    Array2D(unsigned int w, unsigned int h) : width(w), height(h), size(width * height)
-    {
-        arr = new T[size];
-    }
+    Array2D(unsigned int w, unsigned int h) : width(w), height(h),
+        size(width * height), arr(size) {}
     virtual ~Array2D()
     {
-        delete[] arr;
+        for (int i = 0; i < arr.size(); i++)
+            delete arr[i];
     }
 
     T* at(int x, int y)
     {
-        return CheckIfInRange(x, y) ? &arr[y*width + x] : nullptr;
+        return CheckIfInRange(x, y) ? arr[y*width + x] : nullptr;
     }
 
     const T* at(int x, int y) const
     {
-        return CheckIfInRange(x, y) ? &arr[y*width + x] : nullptr;
+        return CheckIfInRange(x, y) ? arr[y*width + x] : nullptr;
     }
 
     void assign(int x, int y, T* data)
     {
         if (CheckIfInRange(x, y))
-            arr[y*width + x] = *data;
+            arr[y*width + x] = data;
         else
             ThrowException();
     }

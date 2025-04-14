@@ -12,7 +12,7 @@ class Cell
 {
 public:
     enum OrdinalDir { NW, NE, SW, SE };
-    enum CardinalDir { North, East, South, West };
+    enum CardinalDir { North, East, South, West, center };
 
     // for traversal algorithms
     // bool isFull
@@ -21,10 +21,12 @@ public:
     // for prim's algorithm
     bool discovered = false;
 
+    const static int numDir = 4;
+
     Position* pos;
-    Position* vertices[4]{};
-    Edge* edges[4]{};
-    Cell* adjacentCells[4]{};
+    Position* vertices[numDir]{};
+    Edge* edges[numDir]{};
+    Cell* adjacentCells[numDir]{};
 
     Cell() {}
     Cell(Graph* graph, Position* pos);
@@ -32,4 +34,7 @@ public:
     void AssignAdjacentCells(Graph* graph);
     void AssignEdge(Edge* edge);
     void AssignEdges(Edge* horEdge, Edge* verEdge);
+
+    CardinalDir GetDirection(Cell* to) const;
+    Edge* GetSharedEdge(Cell* nCell) const;
 };

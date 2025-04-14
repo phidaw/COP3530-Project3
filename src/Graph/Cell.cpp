@@ -57,3 +57,28 @@ void Cell::AssignEdges(Edge* horEdge, Edge* verEdge)
     if (left)
         left->edges[CardinalDir::East] = verEdge;
 }
+
+Cell::CardinalDir Cell::GetDirection(Cell* to) const
+{
+    if (!to)
+        return center;
+
+    for (int i = 0; i < Cell::numDir; i++)
+    {
+        if (adjacentCells[i] == to)
+            return static_cast<CardinalDir>(i);
+    }
+
+    return center;
+}
+
+Edge* Cell::GetSharedEdge(Cell* nCell) const
+{
+    auto direction = GetDirection(nCell);
+
+    // if the cells are adjacent...
+    if (direction != CardinalDir::center)
+        return edges[direction];
+
+    return nullptr;
+}

@@ -83,7 +83,7 @@ unordered_set<Edge*> Prim::CreateMaze(Graph& graph)
         Cell* inNeighbor = SelectRandomNeighbor(visitedNeighbors);
 
         // carve passage
-        maze.erase(Graph::GetSharedEdge(frontierCell, inNeighbor));
+        maze.erase(frontierCell->GetSharedEdge(inNeighbor));
 
         // remove cell from frontier (can be done "out of order")
         std::swap(frontier[cellIndex], frontier[frontier.size()-1]);
