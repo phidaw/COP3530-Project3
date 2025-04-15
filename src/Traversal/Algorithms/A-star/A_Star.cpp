@@ -14,7 +14,8 @@ using std::unordered_map;
 
 Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
                     unordered_map<Cell*, Cell*>& cameFrom,
-                    unordered_map<Cell*, int>& costSoFar)
+                    unordered_map<Cell*, int>& costSoFar,
+                    const int pathLimit)
 {
     MinHeap<Cell*> frontier(start, 0); // open, closed, and priority
     costSoFar[start] = 0;
@@ -27,6 +28,10 @@ Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
 
         // path complete
         if (curr == end)
+            return curr;
+
+        // limit path length (due to randomness of maze, it will not be exact)
+        if (pathLimit > 0 && costSoFar[curr] >= pathLimit)
             return curr;
 
         for (Cell* neighbor : curr->adjacentCells)
@@ -61,14 +66,15 @@ Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
     return start;
 }
 
-vector<Cell*> A_Star::FindPath(Maze& maze, Cell* start, Cell* end)
+vector<Cell*> A_Star::FindPath(Maze& maze, Cell* start, Cell* end, bool limitPath)
 {
-    unordered_map<Cell*, Cell*> cameFrom;
-    unordered_map<Cell*, int> costSoFar;
+    int pathLimit = limitPath ? 5 : -1; // -1 == no limit
+    unordered_map<Cell*, Cell*> cameFrom; // track predecessors
+    unordered_map<Cell*, int> costSoFar; // track priorities
     vector<Cell*> path;
 
-    // find path between start and end (resulting path will not contain start)
-    Cell* pathEnd = Search(maze, start, end, cameFrom, costSoFar);
+    // find path between start and end (returned path will not contain start)
+    Cell* pathEnd = Search(maze, start, end, cameFrom, costSoFar, pathLimit);
 
     // reconstruct path
     Cell* curr = pathEnd;

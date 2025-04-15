@@ -2,24 +2,27 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <vector>
 #include "../../../../Maze/Maze.h"
+#include "../../../../Graph/Cell.h"
 #include "../A_Star.h"
 
 using std::cout;
 using std::endl;
-using std::string;
 using std::setw;
 using std::right;
+using std::string;
+using std::vector;
 
 struct PrintAStar
 {
-    static void Execute(Maze& maze);
+    static void Execute(Maze& maze, bool limitPath, vector<Cell*> path = {});
 };
 
-inline void PrintAStar::Execute(Maze& maze)
+inline void PrintAStar::Execute(Maze& maze, bool limitPath, vector<Cell*> path)
 {
     string dirToStr[4] {"N", "E", "S", "W" };
-    auto path = A_Star::FindPath(maze, maze.start, maze.end);
+    path = !path.empty() ? path : A_Star::FindPath(maze, maze.start, maze.end, limitPath);
 
     cout << "start: " << maze.start->pos << endl;
     for (int i = 0; i < path.size(); i++)
