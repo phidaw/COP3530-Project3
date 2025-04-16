@@ -1,25 +1,25 @@
 #pragma once
 #include <vector>
+#include "Collectable.h"
 #include "Position.h"
 #include "Edge.h"
-#include "Graph.h"
+#include "../Tools/Array2D/CellArray2D.h"
+#include "../Tools/CompassDir/CompassDir.h"
+
 using std::vector;
 
-// https://stackoverflow.com/questions/8526819/c-header-files-including-each-other-mutually
-class Graph;
+// forward declaration of incomplete type
+struct CellArray2D;
+struct Collectable;
 
 class Cell
 {
 public:
-    enum OrdinalDir { NW, NE, SW, SE };
-    enum CardinalDir { North, East, South, West, center };
-
-    // for traversal algorithms
-    // bool isFull
-    // obj ObjectInCell
-
     // for prim's algorithm
     bool discovered = false;
+
+    // for traversal agents
+    Collectable* objectInCell = nullptr;
 
     const static int numDir = 4;
 
@@ -29,12 +29,12 @@ public:
     Cell* adjacentCells[numDir]{};
 
     Cell() {}
-    Cell(Graph* graph, Position* pos);
+    Cell(Array2D<Position>& vertices, Position* pos);
 
-    void AssignAdjacentCells(Graph* graph);
+    void AssignAdjacentCells(CellArray2D& cells);
     void AssignEdge(Edge* edge);
     void AssignEdges(Edge* horEdge, Edge* verEdge);
 
-    CardinalDir GetDirection(Cell* to) const;
+    Cardinal GetDirection(Cell* to) const;
     Edge* GetSharedEdge(Cell* nCell) const;
 };

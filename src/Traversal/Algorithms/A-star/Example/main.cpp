@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    int cellsPerRow = 10;
+    int cellsPerRow = 3;
     bool limitPath = false;
     PrintMaze::Mode mode = PrintMaze::maze;
 

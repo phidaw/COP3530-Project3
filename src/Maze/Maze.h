@@ -5,6 +5,7 @@
 #include "../Graph/Edge.h"
 #include "Prim.h"
 #include "../Tools/Random/Random.h"
+#include "../Tools/CompassDir/CompassDir.h"
 
 using std::unordered_map;
 using std::unordered_set;
@@ -37,9 +38,9 @@ struct Maze
         end = graph.cells.at(endIndex, graph.cells.Height()-1);
 
         // get top edge of a random node along top-outer boundary
-        Edge* entryEdge = start->edges[Cell::CardinalDir::North];
+        Edge* entryEdge = start->edges[Cardinal::North];
         // get bottom edge of a random node along bot-outer boundary
-        Edge* exitEdge = end->edges[Cell::CardinalDir::South];
+        Edge* exitEdge = end->edges[Cardinal::South];
 
         // erase two edges for entry and exit of maze
         walls.erase(entryEdge);
@@ -59,7 +60,7 @@ struct Maze
     bool CheckIfBlocked(Cell* from, Cell* to) const
     {
         Edge* edge = from->GetSharedEdge(to);
-        if (edge && walls.count(edge) != 0)
+        if (edge && walls.find(edge) != walls.end())
             return true;
 
         return false;

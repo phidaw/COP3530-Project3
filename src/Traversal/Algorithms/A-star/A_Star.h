@@ -14,5 +14,5 @@ class A_Star
         unordered_map<Cell*, Cell*>& cameFrom, unordered_map<Cell*,
         int>& costSoFar, const int pathLimit);
 public:
-    static vector<Cell*> FindPath(Maze& maze, Cell* start, Cell* end, bool limitPath);
+    static vector<Cell*> FindPath(Maze& maze, Cell* start, Cell* end, bool limitPath = false);
 };

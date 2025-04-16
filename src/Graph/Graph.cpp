@@ -21,14 +21,14 @@ void Graph::CreateCells()
     for (int x = 0; x < cells.Width(); x++)
     {
         for (int y = 0; y < cells.Height(); y++)
-            cells.assign(x, y, new Cell(this, vertices.at(x, y)));
+            cells.assign(x, y, new Cell(vertices, vertices.at(x, y)));
     }
 
     // assign adjacent cells after construction of all cells
     for (int x = 0; x < cells.Width(); x++)
     {
         for (int y = 0; y < cells.Height(); y++)
-            cells.at(x, y)->AssignAdjacentCells(this);
+            cells.at(x, y)->AssignAdjacentCells(cells);
     }
 }
 
@@ -45,7 +45,7 @@ void Graph::CreateEdges()
         // only horizontal edges, if last row
         if (y == nodesPerRow-1)
         {
-            Edge* edge = new HorizontalEdge(n1, h2);
+            Edge* edge = new Edge(n1, h2, Edge::Direction::Horizontal);
             edges.emplace(edge);
             // from cell at pos n1, go to the cell above it, and assign its bottom edge
             cells.at(n1->x, n1->y-1)->AssignEdge(edge);
@@ -53,15 +53,15 @@ void Graph::CreateEdges()
         // only vertical edges, if last column
         else if (x == nodesPerRow-1)
         {
-            Edge* edge = new VerticalEdge(n1, v2);
+            Edge* edge = new Edge(n1, v2, Edge::Direction::Vertical);
             edges.emplace(edge);
             // from cell at pos n1, go to left of cell, and assign its right edge
             cells.at(n1->x-1, n1->y)->AssignEdge(edge);
         }
         else
         {
-            Edge* horEdge = new HorizontalEdge(n1, h2);
-            Edge* verEdge = new VerticalEdge(n1, v2);
+            Edge* horEdge = new Edge(n1, h2, Edge::Direction::Horizontal);
+            Edge* verEdge = new Edge(n1, v2, Edge::Direction::Vertical);
             edges.emplace(horEdge);
             edges.emplace(verEdge);
             cells.at(n1->x, n1->y)->AssignEdges(horEdge, verEdge);
@@ -73,8 +73,9 @@ void Graph::CreateEdges()
 }
 
 Graph::Graph(int cellsPerRow) : cellsPerRow(cellsPerRow), cells(cellsPerRow, cellsPerRow),
-    cellNum(cellsPerRow * cellsPerRow), nodesPerRow(cellsPerRow + 1), nodeNum(nodesPerRow * nodesPerRow),
-    vertices(nodeNum, nodeNum)
+                                cellNum(cellsPerRow * cellsPerRow), nodesPerRow(cellsPerRow + 1),
+                                nodeNum(nodesPerRow * nodesPerRow),
+                                vertices(nodesPerRow, nodesPerRow), regionMap(cellsPerRow)
 {
     edgesPerType = cellsPerRow * nodesPerRow;
     edgeNum = edgesPerType * 2;
@@ -82,6 +83,8 @@ Graph::Graph(int cellsPerRow) : cellsPerRow(cellsPerRow), cells(cellsPerRow, cel
     CreateVertices();
     CreateCells();
     CreateEdges();
+
+    regionMap.DistributeItems(cells);
 }
 
 Graph::~Graph()
@@ -104,31 +107,3 @@ Position* Graph::GetNode(int x, int y)
     return nullptr;
 }
 
-// unordered_set<Edge*> Graph::GetInnerEdges() const
-// {
-//     unordered_set<Edge*> innerEdges(edges);
-//
-//     for (Edge* edge : edges)
-//     {
-//         if (edge->GetDirection() == Edge::Direction::Vertical)
-//         {
-//             // first col edges
-//             if (edge->v1->x == 0)
-//                 innerEdges.erase(edge);
-//             // last col edges
-//             if (edge->v1->x == vertices.Size()-1)
-//                 innerEdges.erase(edge);
-//         }
-//         else
-//         {
-//             // first row edges
-//             if (edge->v1->y == 0)
-//                 innerEdges.erase(edge);
-//             // last row edges
-//             if (edge->v1->y == vertices.Size()-1)
-//                 innerEdges.erase(edge);
-//         }
-//     }
-//
-//     return innerEdges;
-// }

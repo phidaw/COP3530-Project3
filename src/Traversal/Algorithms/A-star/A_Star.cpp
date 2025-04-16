@@ -68,6 +68,7 @@ Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
 
 vector<Cell*> A_Star::FindPath(Maze& maze, Cell* start, Cell* end, bool limitPath)
 {
+    // todo phi: find a more dynamic and consistent way to limit path
     int pathLimit = limitPath ? 5 : -1; // -1 == no limit
     unordered_map<Cell*, Cell*> cameFrom; // track predecessors
     unordered_map<Cell*, int> costSoFar; // track priorities

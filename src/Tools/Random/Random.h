@@ -3,12 +3,6 @@
 #include <unordered_map>
 #include <tuple>
 
-// Generating random numbers using Mersenne Twister
-// https://www.learncpp.com/cpp-tutorial/generating-random-numbers-using-mersenne-twister/
-
-// Using std::tuple as a key for std::unordered_map
-// https://stackoverflow.com/questions/11408934/using-a-stdtuple-as-key-for-stdunordered-map
-
 class Random
 {
 private:

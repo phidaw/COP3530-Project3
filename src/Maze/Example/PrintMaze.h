@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <iostream>
 #include "../Maze.h"
+#include "../../Tools/CompassDir/CompassDir.h"
 
 using std::cout;
 using std::endl;
@@ -45,9 +46,9 @@ struct PrintMaze
         for (int i = 0; i < cellNum; i++)
         {
             auto* cell = cells.at(x, y);
-            auto* topEdge = cell->edges[Cell::CardinalDir::North];
-            auto* leftEdge = cell->edges[Cell::CardinalDir::West];
-            auto* rightEdge = cell->edges[Cell::CardinalDir::East];
+            auto* topEdge = cell->edges[Cardinal::North];
+            auto* leftEdge = cell->edges[Cardinal::West];
+            auto* rightEdge = cell->edges[Cardinal::East];
 
             // last column
             if (x == cellPerRow-1)
@@ -101,7 +102,7 @@ struct PrintMaze
                     {
                         auto* c = cells.at(k, y);
 
-                        auto* botEdge = c->edges[Cell::CardinalDir::South];
+                        auto* botEdge = c->edges[Cardinal::South];
 
                         if (walls.count(botEdge) != 0)
                             PrintHorizontalEdge(true);

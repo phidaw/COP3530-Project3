@@ -2,12 +2,10 @@
 #include <unordered_set>
 #include "../Tools/Array2D/Array2D.h"
 #include "../Tools/Array2D/CellArray2D.h"
+#include "RegionMap.h"
 #include "Cell.h"
 
 using std::unordered_set;
-
-// https://stackoverflow.com/questions/8526819/c-header-files-including-each-other-mutually
-class Cell;
 
 class Graph
 {
@@ -26,6 +24,7 @@ public:
     Array2D<Position> vertices;
     CellArray2D cells;
     unordered_set<Edge*> edges;
+    RegionMap regionMap;
 
     // construction / destruction
     Graph(int cellsPerRow = DEFAULT_CELLS_PER_ROW);
@@ -34,7 +33,6 @@ public:
     // accessors
     Cell* GetCell(int x, int y);
     Position* GetNode(int x, int y);
-    // unordered_set<Edge*> GetInnerEdges() const;
 
     int GetCellNum() const { return cellNum; }
     int GetCellsPerRow() const { return cellsPerRow; }

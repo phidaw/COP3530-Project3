@@ -7,10 +7,13 @@
 #include "TraversalAgent.h"
 #include "../Algorithms/A-star/Example/PrintAStar.h"
 
-struct AgentManager
+class AgentManager
 {
     std::unordered_set<TraversalAgent*> agents;
     std::unordered_map<TraversalAgent*, std::future<vector<Cell*>> > threads;
+public:
+
+    bool HasAgents() const { return !agents.empty(); }
 
     // visuals call these
     void AddAgent(TraversalAgent& agent)
@@ -23,12 +26,16 @@ struct AgentManager
         threads.erase(&agent);
     }
 
-    void RunAgents(Maze& maze)
+    void RunAgents(Maze& maze, TraversalAgent::Mode mode = TraversalAgent::Mode::traversal)
     {
+        // no agents to run
+        if (agents.empty())
+            return;
+
         // start a thread for each agent
         for (auto* agent : agents)
         {
-            threads[agent] = agent->Execute(TraversalAgent::Mode::traversal, maze);
+            threads[agent] = agent->CalculatePath(mode, maze);
         }
 
         // process visuals while threads run
@@ -37,11 +44,21 @@ struct AgentManager
             // wait for thread to finish, then get returned vector
             auto path = kvp.second.get();
 
-            // perform actions relative to current agent
-            // update GUI
+            // move agent along path
+            kvp.first->Move(path, maze.end);
+        }
 
-            // test print
-            PrintAStar::Execute(maze, false, path);
+        // remove any agents that exited maze
+        for (auto iter = agents.begin(); iter != agents.end();)
+        {
+            if ((*iter)->CheckIfExitedMaze())
+            {
+                std::cout << "------------ " << (*iter)->GetName() << " exited the maze ------------" << std::endl;
+                threads.erase(*iter);
+                iter = agents.erase(iter);
+            }
+            else
+                ++iter;
         }
     }
 };
