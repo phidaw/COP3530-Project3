@@ -48,7 +48,7 @@ void Graph::CreateEdges()
             Edge* edge = new Edge(n1, h2, Edge::Direction::Horizontal);
             edges.emplace(edge);
             // from cell at pos n1, go to the cell above it, and assign its bottom edge
-            cells.at(n1->x, n1->y-1)->AssignEdge(edge);
+            cells.at(n1->x, n1->y-1)->AssignBotEdge(edge);
         }
         // only vertical edges, if last column
         else if (x == nodesPerRow-1)
@@ -56,7 +56,7 @@ void Graph::CreateEdges()
             Edge* edge = new Edge(n1, v2, Edge::Direction::Vertical);
             edges.emplace(edge);
             // from cell at pos n1, go to left of cell, and assign its right edge
-            cells.at(n1->x-1, n1->y)->AssignEdge(edge);
+            cells.at(n1->x-1, n1->y)->AssignRightEdge(edge);
         }
         else
         {
@@ -64,7 +64,8 @@ void Graph::CreateEdges()
             Edge* verEdge = new Edge(n1, v2, Edge::Direction::Vertical);
             edges.emplace(horEdge);
             edges.emplace(verEdge);
-            cells.at(n1->x, n1->y)->AssignEdges(horEdge, verEdge);
+            cells.at(n1->x, n1->y)->AssignTopEdge(horEdge);
+            cells.at(n1->x, n1->y)->AssignLeftEdge(verEdge);
         }
 
         x = ++x % nodesPerRow; // go to next column

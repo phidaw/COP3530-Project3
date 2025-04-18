@@ -36,25 +36,29 @@ void Cell::AssignAdjacentCells(CellArray2D& cells)
     adjacentCells[Cardinal::West] = cells.at(x - 1, y);
 }
 
-void Cell::AssignEdge(Edge* edge)
+void Cell::AssignTopEdge(Edge* edge)
 {
-    if (edge->GetDirection() == Edge::Direction::Horizontal)
-        edges[Cardinal::South] = edge;
-    else
-        edges[Cardinal::East] = edge;
-}
-void Cell::AssignEdges(Edge* horEdge, Edge* verEdge)
-{
-    edges[Cardinal::North] = horEdge;
-    edges[Cardinal::West] = verEdge;
+    edges[Cardinal::North] = edge;
 
     Cell* top = adjacentCells[Cardinal::North];
     if (top)
-        top->edges[Cardinal::South] = horEdge;
+        top->edges[Cardinal::South] = edge;
+}
+void Cell::AssignLeftEdge(Edge* edge)
+{
+    edges[Cardinal::West] = edge;
 
     Cell* left = adjacentCells[Cardinal::West];
     if (left)
-        left->edges[Cardinal::East] = verEdge;
+        left->edges[Cardinal::East] = edge;
+}
+void Cell::AssignBotEdge(Edge* edge)
+{
+    edges[Cardinal::South] = edge;
+}
+void Cell::AssignRightEdge(Edge* edge)
+{
+    edges[Cardinal::East] = edge;
 }
 
 Cardinal Cell::GetDirection(Cell* to) const

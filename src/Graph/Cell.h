@@ -32,8 +32,11 @@ public:
     Cell(Array2D<Position>& vertices, Position* pos);
 
     void AssignAdjacentCells(CellArray2D& cells);
-    void AssignEdge(Edge* edge);
-    void AssignEdges(Edge* horEdge, Edge* verEdge);
+
+    void AssignTopEdge(Edge* edge);
+    void AssignLeftEdge(Edge* edge);
+    void AssignBotEdge(Edge* edge);
+    void AssignRightEdge(Edge* edge);
 
     Cardinal GetDirection(Cell* to) const;
     Edge* GetSharedEdge(Cell* nCell) const;
