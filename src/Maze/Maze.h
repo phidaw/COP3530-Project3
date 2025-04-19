@@ -10,6 +10,8 @@
 using std::unordered_map;
 using std::unordered_set;
 
+#define DEBUG_MODE false
+
 struct Maze
 {
     const static int DEFAULT_NUM_CELLS = 16;
@@ -30,8 +32,8 @@ struct Maze
     void CreateEntrances()
     {
         // get random indices
-        int startIndex = rand(0, graph.cells.Width()-1);
-        int endIndex = rand(0, graph.cells.Width()-1);
+        int startIndex = rand(DEBUG_MODE);
+        int endIndex = rand(DEBUG_MODE);
 
         // assign start and end cells
         start = graph.cells.at(startIndex, 0);
@@ -47,8 +49,8 @@ struct Maze
         walls.erase(exitEdge);
     }
 
-    Maze(int numOfCells = DEFAULT_NUM_CELLS, int minWeight = DEFAULT_MIN_WEIGHT, int maxWeight = DEFAULT_MAX_WEIGHT)
-        : rand(minWeight, maxWeight), graph(numOfCells), walls(Prim::CreateMaze(graph))
+    Maze(int numOfCells = DEFAULT_NUM_CELLS)
+        : rand(0, numOfCells-1), graph(numOfCells), walls(Prim::CreateMaze(graph))
     {
         start = nullptr;
         end = nullptr;

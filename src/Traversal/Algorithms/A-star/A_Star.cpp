@@ -3,10 +3,9 @@
 #include <unordered_map>
 #include "../../../Graph/Cell.h"
 #include "../../../Maze/Maze.h"
-#include "../../../Tools/MinHeap/MinHeap.h"
-#include "A_Star.h"
-
+#include "../../../Tools/RadixHeap/RadixHeap.h"
 #include "../../PathUtilities/PathUtilities.h"
+#include "A_Star.h"
 
 using std::vector;
 using std::queue;
@@ -17,16 +16,20 @@ Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
                     unordered_map<Cell*, int>& costSoFar,
                     const int pathLimit)
 {
-    MinHeap<Cell*> frontier(start, 0); // open, closed, and priority
+    // manages priorities
+    RadixHeap frontier(maze.graph.GetCellNum());
+    frontier.Insert(0, start);
+    // manages G costs (dist from start to given cell)
     costSoFar[start] = 0;
+    // manages predecessors
     cameFrom[start] = start;
 
-    while (!frontier.empty())
+    while (!frontier.Empty())
     {
         // get cell with lowest f cost
-        Cell* curr = frontier.extract();
+        Cell* curr = frontier.ExtractMin();
 
-        // path complete
+        // check if path is complete
         if (curr == end)
             return curr;
 
@@ -49,12 +52,12 @@ Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
             // update dist between start and neighbor
             if (costSoFar.count(neighbor) == 0 || newCost < costSoFar[neighbor])
             {
-                // set G cost (dist from start)
+                // set G cost
                 costSoFar[neighbor] = newCost;
 
-                // f cost = G cost + H cost (dist to end)
+                // set f cost = G cost + H cost (dist to end)
                 int priority = newCost + PathUtilities::ManhattanDist(neighbor->pos, end->pos);
-                frontier.insert(neighbor, priority);
+                frontier.Insert(priority, neighbor);
 
                 // set neighbor's predecessor
                 cameFrom[neighbor] = curr;
