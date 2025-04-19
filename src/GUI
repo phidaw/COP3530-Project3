@@ -3,6 +3,14 @@
 Along with an option to select which traversal mode should be used
 -if going to do collectables, need a way to animate the agents movement
 */
+/*Plan:
+-Set up buttons that activate algorithms when clicked
+-Make place holders for coding visuals for buttons and maze
+-Read through maze to build it as a container(container))
+-Then read through algorithm results to then update maze visualizer
+--If want to see how algorithm works, get paths that aren't final and display with different visual (phantom)
+-Make sure to display based on size if there are different sized mazes*****
+*/
 //Right now this is just old code for me to decipher to get SFML buttons and graphics working
 
 #include <SFML/Graphics.hpp>
