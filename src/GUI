@@ -19,14 +19,10 @@ Along with an option to select which traversal mode should be used
 
 class Button {
 
-    friend class Tile;
-    friend class GameState;
-    friend class Toolbox;
-    friend class minesweeper;
-
     sf::Sprite* sprite;
     sf::Vector2f position;
     std::function<void(void)> clicky;
+
 public:
     Button(sf::Vector2f pos, std::function<void(void)> onClick);
     sf::Vector2f getPosition();
@@ -56,6 +52,17 @@ void Button::onClick() {
 }
 ///////
 //No longer button class
+//Do stuff below to make window with functionality
+main(){
 window.create(sf::VideoMode(800, 600), "Title");
 debugButton = new Button(sf::Vector2f(20, 515), [this]->{foo();});
                                     //pos^
+if (!debugTexture.loadFromFile("images/debug.png")) { //Replace debug with image name, this also loads the images into the code
+        std::cerr << "Failed to load debug texture"; //Replace with proper error message
+    }
+    else { //This creates the sprite of the button, and places it in pos^, and assigns the sprite to the appropriate button
+        debugSprite.setTexture(debugTexture);
+        debugSprite.setPosition(debugButton->getPosition());
+        debugButton->setSprite(&debugSprite); 
+    }
+};
