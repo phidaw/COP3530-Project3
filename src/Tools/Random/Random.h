@@ -42,10 +42,6 @@ public:
     {
         savedDistributions.emplace(std::make_tuple(distLwr, distUpr), dist);
     }
-    ~Random()
-    {
-        savedDistributions.clear();
-    }
 
     // uses distribution with bounds from last setting (the current dist)
     int operator()(bool debug = false);
