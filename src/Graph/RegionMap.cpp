@@ -89,6 +89,7 @@ void RegionMap::AssignItem(Cell* cell)
     item->occupiedCell = cell;
     cell->objectInCell = item;
     collectables[GetRegion(cell)].emplace(item);
+    collectableCount++;
 }
 
 void RegionMap::DistributeItems(CellArray2D& cells)

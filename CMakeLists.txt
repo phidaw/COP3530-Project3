@@ -27,7 +27,8 @@ set(SOURCES src/Tools/CompassDir/CompassDir.h
         src/Traversal/Algorithms/A-star/A_Star.h
         src/Traversal/Algorithms/A-star/A_Star.cpp
         src/Traversal/PathUtilities/PathUtilities.h
-        src/Tools/MinHeap/MinHeap.h
+        src/Tools/RadixHeap/RadixHeap.cpp
+        src/Tools/RadixHeap/RadixHeap.h
 )
 
 add_executable(Maze src/Maze/Example/main.cpp

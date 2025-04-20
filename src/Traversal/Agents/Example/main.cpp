@@ -22,7 +22,7 @@ using namespace std;
 
 int main()
 {
-    Maze maze(30);
+    Maze maze(317);
     AStarAgent a1(maze.start);
     AgentManager manager;
 

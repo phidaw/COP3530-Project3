@@ -14,10 +14,7 @@ struct Prim
     static Random rand;
 
     static void GetNeighbors(Cell* frontierCell, vector<Cell*>& visitedNeighbors,
-        vector<Cell*>& frontier, unordered_set<Cell*> visited);
-
+        vector<Cell*>& frontier, unordered_set<Cell*>& visited, int& fSize);
     static Cell* SelectRandomNeighbor(vector<Cell*>& visitedNeighbors);
-
-    // produces a non-uniform min. span. tree of graph's edges
     static unordered_set<Edge*> CreateMaze(Graph& graph);
 };

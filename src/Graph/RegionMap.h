@@ -10,6 +10,7 @@
 class RegionMap
 {
     Random rand;
+    int collectableCount = 0;
     std::unordered_map<Ordinal, std::unordered_set<Collectable*>> collectables;
 public:
     const int width;
@@ -21,5 +22,5 @@ public:
     void AssignItem(Cell* cell);
     void DistributeItems(CellArray2D& cells);
     std::unordered_set<Collectable*> GetNearbyCollectables(const Cell* const cell, const int radius = -1) const;
-    int GetTotalItemCount() const { return collectables.size(); }
+    int GetTotalItemCount() const { return collectableCount; }
 };

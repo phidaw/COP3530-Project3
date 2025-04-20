@@ -7,8 +7,6 @@
 #include "Prim.h"
 #include "../Tools/Random/Random.h"
 
-#define DEBUG_MODE false
-
 using std::unordered_map;
 using std::unordered_set;
 using std::vector;
@@ -17,10 +15,12 @@ using std::vector;
 Random Prim::rand;
 
 void Prim::GetNeighbors(Cell* frontierCell, vector<Cell*>& visitedNeighbors,
-    vector<Cell*>& frontier, unordered_set<Cell*> visited)
+    vector<Cell*>& frontier, unordered_set<Cell*>& visited, int& fSize)
 {
-    for (Cell* neighbor : frontierCell->adjacentCells)
+    for (int i = 0; i < Cell::numDir; i++)
     {
+        Cell* neighbor = frontierCell->adjacentCells[i];
+
         if (!neighbor) continue;
 
         if (visited.find(neighbor) != visited.end())
@@ -29,7 +29,7 @@ void Prim::GetNeighbors(Cell* frontierCell, vector<Cell*>& visitedNeighbors,
         {
             // add non-visited, undiscovered neighbor to frontier
             neighbor->discovered = true;
-            frontier.push_back(neighbor);
+            frontier[fSize++] = neighbor;
         }
     }
 }
@@ -39,25 +39,22 @@ Cell* Prim::SelectRandomNeighbor(vector<Cell*>& visitedNeighbors)
     if (visitedNeighbors.size() == 1)
         inNeighbor = visitedNeighbors[0];
     else
-        inNeighbor = visitedNeighbors[rand(0, visitedNeighbors.size()-1, DEBUG_MODE)];
+        inNeighbor = visitedNeighbors[rand(0, visitedNeighbors.size()-1)];
 
     return inNeighbor;
 }
 
-/**
- * choose an arbitrary vertex from Graph, G, and add it to some (initially empty) visited set, S.
- * while |S| != |G|
-     * select a random edge that connects a vertex in S with another not in S.
-     * add that edge to the spanning tree, and the edge's vertex not in S to S.
- */
 unordered_set<Edge*> Prim::CreateMaze(Graph& graph)
 {
     // change bounds of distribution to range of cells per row/col of graph
     rand.ChangeBounds(0, graph.GetCellsPerRow()-1);
 
     unordered_set<Edge*> maze(graph.edges);
-    unordered_set<Cell*> visited { graph.cells.at(rand(DEBUG_MODE), rand(DEBUG_MODE)) };
-    vector<Cell*> frontier;
+    unordered_set<Cell*> visited { graph.cells.at(rand(), rand()) };
+    vector<Cell*> frontier(graph.GetCellNum());
+
+    // keep track of positions in frontier
+    int fSize = 0;
 
     // add neighbors of starting cell to frontier
     for (Cell* neighbor : (*visited.begin())->adjacentCells)
@@ -65,29 +62,32 @@ unordered_set<Edge*> Prim::CreateMaze(Graph& graph)
         if (neighbor)
         {
             neighbor->discovered = true;
-            frontier.push_back(neighbor);
+            frontier[fSize++] = neighbor;
         }
     }
 
-    while (!frontier.empty())
+    while (visited.size() != graph.GetCellNum())
     {
         // select random cell from frontier
-        const int cellIndex = rand(0, frontier.size()-1, DEBUG_MODE);
+        const int cellIndex = rand(0, fSize-1);
         Cell* frontierCell = frontier[cellIndex];
+
+        // remove cell from frontier
+        // shift valid cells after frontierCell down (+1 null)
+        int p = cellIndex-1;
+        while (++p != fSize)
+            frontier[p] = frontier[p+1];
+        fSize--;
 
         // get cell's visited neighbors and add unvisited ones to frontier
         vector<Cell*> visitedNeighbors;
-        GetNeighbors(frontierCell, visitedNeighbors, frontier, visited);
+        GetNeighbors(frontierCell, visitedNeighbors, frontier, visited, fSize);
 
         // select random visited neighbor
         Cell* inNeighbor = SelectRandomNeighbor(visitedNeighbors);
 
         // carve passage
         maze.erase(frontierCell->GetSharedEdge(inNeighbor));
-
-        // remove cell from frontier (can be done "out of order")
-        std::swap(frontier[cellIndex], frontier[frontier.size()-1]);
-        frontier.pop_back();
 
         // add cell to visited (can be done "out of order")
         visited.emplace(frontierCell);
