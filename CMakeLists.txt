@@ -49,4 +49,8 @@ add_executable(MazeAgents_AStar src/Traversal/Agents/Example/main.cpp
         src/Graph/Collectable.h
         src/Traversal/Agents/AStarAgent.cpp
         src/Traversal/Agents/AStarAgent.h
+        src/Traversal/Agents/DijkstraAgent.cpp
+        src/Traversal/Agents/DijkstraAgent.h
+        src/Traversal/Agents/BFSAgent.cpp
+        src/Traversal/Agents/BFSAgent.h
 )

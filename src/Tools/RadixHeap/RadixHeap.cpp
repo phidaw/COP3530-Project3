@@ -22,7 +22,7 @@ int RadixHeap::GetBucketNum(int key) const
 void RadixHeap::CalculateLowestOccupiedBucket()
 {
     lowestOccupiedBucket = -1;
-    for (int i = 0; i < numBuckets; i++)
+    for (int i = 0; i < bucketCount; i++)
     {
         if (!buckets[i].empty())
         {
@@ -45,9 +45,9 @@ void RadixHeap::Insert(Element&& element)
 
 // ----------------------------------------- Public Functions -----------------------------------------
 
-RadixHeap::RadixHeap(unsigned int maxKeyValue): numBuckets(log2(maxKeyValue) + 1)
+RadixHeap::RadixHeap(unsigned int maxKeyValue): elementCount(0), bucketCount(log2(maxKeyValue) + 1)
 {
-    buckets = new Bucket[numBuckets];
+    buckets = new Bucket[bucketCount];
 }
 
 RadixHeap::~RadixHeap()
@@ -66,6 +66,7 @@ void RadixHeap::Insert(int key, Cell* value)
     if (key < lastDeleted)
         return;
 
+    elementCount++;
     int bucketNum = GetBucketNum(key);
     buckets[bucketNum].emplace_back(key, value);
     if (lowestOccupiedBucket < 0 || bucketNum < lowestOccupiedBucket)
@@ -119,5 +120,6 @@ Cell* RadixHeap::ExtractMin()
     if (size == 0)
         CalculateLowestOccupiedBucket();
 
+    elementCount--;
     return p.second;
 }

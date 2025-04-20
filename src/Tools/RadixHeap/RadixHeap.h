@@ -8,9 +8,10 @@ class RadixHeap
     typedef std::pair<int, Cell*> Element;
     typedef std::vector<Element> Bucket;
 
-    int numBuckets;
     int lastDeleted = 0;
     int lowestOccupiedBucket = -1;
+    int elementCount;
+    int bucketCount;
     Bucket* buckets;
 
     static int HighestBit(int value);
@@ -22,6 +23,7 @@ public:
     RadixHeap(unsigned int maxKeyValue);
     ~RadixHeap();
 
+    int Size() const { return elementCount; }
     bool Empty() const;
     void Insert(int key, Cell* value);
     Cell* ExtractMin();

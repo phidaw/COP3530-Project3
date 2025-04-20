@@ -1,15 +1,15 @@
 #include <future>
 #include "../../Maze/Maze.h"
 #include "../Algorithms/A-star/A_Star.h"
-#include "AStarAgent.h"
+#include "DijkstraAgent.h"
 
-void AStarAgent::UpdateVisuals()
+void DijkstraAgent::UpdateVisuals()
 {
     // todo -- update GUI here --
     // use this->currCell
 }
 
-std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
+std::future<vector<Cell*>> DijkstraAgent::CalculatePath(Mode mode, Maze& maze)
 {
     if (mode == TraversalAgent::Mode::collecting)
     {
@@ -17,9 +17,9 @@ std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
         return std::async(std::launch::async,
             [this, &maze]()
             {
-                // todo phi: limit path
-                // limiting path length since current objective can change frequently
                 Cell* target = CalculateUtility(maze);
+
+                // todo: replace A_Star with Dijkstra
                 return A_Star::FindPath(maze, maze.start, target);
             });
     }
@@ -28,6 +28,7 @@ std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
     return std::async(std::launch::async,
         [&maze]()
         {
+            // todo: replace A_Star with Dijkstra
             return A_Star::FindPath(maze, maze.start, maze.end);
         });
 }

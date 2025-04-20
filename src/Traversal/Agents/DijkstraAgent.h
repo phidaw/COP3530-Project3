@@ -5,13 +5,13 @@
 #include "../../Maze/Maze.h"
 #include "TraversalAgent.h"
 
-class AStarAgent : public TraversalAgent
+class DijkstraAgent : public TraversalAgent
 {
     void UpdateVisuals() override;
 public:
-    AStarAgent(Cell* startCell) {
+    DijkstraAgent(Cell* startCell) {
         currCell = startCell;
-        name = "A*";
+        name = "Dijksta";
     }
     std::future<vector<Cell*>> CalculatePath(Mode mode, Maze& maze) override;
 };

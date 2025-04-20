@@ -1,7 +1,10 @@
 #include <iostream>
 #include "../AgentManager.h"
 #include "../AStarAgent.h"
+#include "../BFSAgent.h"
+#include "../DijkstraAgent.h"
 #include "../../../Maze/Maze.h"
+#include "../../../Maze/Example/PrintMaze.h"
 
 using namespace std;
 
@@ -20,22 +23,39 @@ using namespace std;
      *      (see UpdateVisuals() in each agent)
  */
 
+void PrintStats(TraversalAgent& agent, Maze& maze);
+
 int main()
 {
     Maze maze(317);
-    AStarAgent a1(maze.start);
-    AgentManager manager;
+    PrintMaze::Execute(maze, PrintMaze::Mode::maze);
+    cout << "\n\n";
 
-    manager.AddAgent(a1);
+    AStarAgent aStar(maze.start);
+    DijkstraAgent dijksta(maze.start);
+    BFSAgent bfs(maze.start);
+
+    AgentManager manager;
+    manager.AddAgent(aStar);
+    manager.AddAgent(dijksta);
+    manager.AddAgent(bfs);
 
     while (manager.HasAgents())
     {
         manager.RunAgents(maze, TraversalAgent::Mode::collecting);
     }
+
     cout << "\n-------------------- Stats --------------------\n";
-    cout << a1.GetName() << " traveled " << a1.GetTotalDistanceTraveled() << " cells" << endl;
-    cout << a1.GetName() << " collected: " << a1.GetTotalItemsCollected() << " of "
-        << maze.graph.regionMap.GetTotalItemCount() << " items" << endl;
+    PrintStats(aStar, maze);
+    PrintStats(dijksta, maze);
+    PrintStats(bfs, maze);
 
     return 0;
+}
+
+void PrintStats(TraversalAgent& agent, Maze& maze)
+{
+    cout << agent.GetName() << " traveled " << agent.GetTotalDistanceTraveled() << " cells" << endl;
+    cout << agent.GetName() << " collected: " << agent.GetTotalItemsCollected() << " of "
+        << maze.graph.regionMap.GetTotalItemCount() << " items" << endl;
 }
