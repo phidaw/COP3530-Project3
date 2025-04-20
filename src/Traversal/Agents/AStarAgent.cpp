@@ -32,7 +32,7 @@ vector<Cell*> AStarAgent::ComplexTraversal(Maze& maze)
 
     // todo phi: add distance traveled variable and item quota (if any)
     // compare utilities, erring in favor of collecting the item
-    if (exitUtility - maxItemUtility <= 0.0)
+    if (maxItem && exitUtility - maxItemUtility <= 0.0)
     {
         // item utility overpowers exit utility, agent will go to item
         target = maxItem->occupiedCell;
