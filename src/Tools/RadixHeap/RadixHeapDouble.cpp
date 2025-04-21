@@ -1,25 +1,25 @@
 #include <vector>
 #include <cmath>
 #include "../../Graph/Cell.h"
-#include "RadixHeap.h"
+#include "RadixHeapDouble.h"
 
 // ----------------------------------------- Private Functions -----------------------------------------
 
-int RadixHeap::HighestBit(int value)
+int RadixHeapDouble::HighestBit(int value)
 {
     // when value is 0, key and last deleted differed in 0th bit
     // return -1 so that kth bucket is 0th bucket
     return value == 0 ? -1 : trunc(log2(value));
 }
 
-int RadixHeap::GetBucketNum(int key) const
+int RadixHeapDouble::GetBucketNum(int key) const
 {
     // get the (k-1)th bit where the key and lastDeleted differ
     // then add +1 to get the index of the kth bucket
     return HighestBit(key ^ lastDeleted) + 1;
 }
 
-void RadixHeap::CalculateLowestOccupiedBucket()
+void RadixHeapDouble::CalculateLowestOccupiedBucket()
 {
     lowestOccupiedBucket = -1;
     for (int i = 0; i < bucketCount; i++)
@@ -32,7 +32,7 @@ void RadixHeap::CalculateLowestOccupiedBucket()
     }
 }
 
-void RadixHeap::Insert(Element&& element)
+void RadixHeapDouble::Insert(Element&& element)
 {
     // so long as this is called when redistributing a bucket's elements,
     // the given element's key will never be less than lastDeleted
@@ -45,22 +45,22 @@ void RadixHeap::Insert(Element&& element)
 
 // ----------------------------------------- Public Functions -----------------------------------------
 
-RadixHeap::RadixHeap(unsigned int maxKeyValue): elementCount(0), bucketCount(log2(maxKeyValue) + 1)
+RadixHeapDouble::RadixHeapDouble(unsigned int maxKeyValue): elementCount(0), bucketCount(log2(maxKeyValue) + 1)
 {
     buckets = new Bucket[bucketCount];
 }
 
-RadixHeap::~RadixHeap()
+RadixHeapDouble::~RadixHeapDouble()
 {
     delete[] buckets;
 }
 
-bool RadixHeap::Empty() const
+bool RadixHeapDouble::Empty() const
 {
     return lowestOccupiedBucket < 0;
 }
 
-void RadixHeap::Insert(int key, Cell* value)
+void RadixHeapDouble::Insert(int key, Cell* value)
 {
     // to maintain monotone invariant, we cannot store keys smaller than lastDeleted
     if (key < lastDeleted)
@@ -73,7 +73,7 @@ void RadixHeap::Insert(int key, Cell* value)
         lowestOccupiedBucket = bucketNum;
 }
 
-Cell* RadixHeap::ExtractMin()
+Cell* RadixHeapDouble::ExtractMin()
 {
     if (Empty()) return nullptr;
 

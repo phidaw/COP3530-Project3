@@ -11,8 +11,7 @@ using std::unordered_map;
 class A_Star
 {
     static Cell* Search(Maze& maze, Cell* start, Cell* end,
-        unordered_map<Cell*, Cell*>& cameFrom, unordered_map<Cell*,
-        int>& costSoFar, const int pathLimit);
+        unordered_map<Cell*, Cell*>& cameFrom, const int pathLimit);
 public:
     static vector<Cell*> FindPath(Maze& maze, Cell* start, Cell* end, bool limitPath = false);
 };

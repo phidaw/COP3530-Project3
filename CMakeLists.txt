@@ -27,8 +27,10 @@ set(SOURCES src/Tools/CompassDir/CompassDir.h
         src/Traversal/Algorithms/A-star/A_Star.h
         src/Traversal/Algorithms/A-star/A_Star.cpp
         src/Traversal/PathUtilities/PathUtilities.h
-        src/Tools/RadixHeap/RadixHeap.cpp
-        src/Tools/RadixHeap/RadixHeap.h
+        src/Tools/RadixHeap/RadixHeapDouble.cpp
+        src/Tools/RadixHeap/RadixHeapDouble.h
+        src/Tools/RadixHeap/RadixHeapTriple.cpp
+        src/Tools/RadixHeap/RadixHeapTriple.h
 )
 
 add_executable(Maze src/Maze/Example/main.cpp

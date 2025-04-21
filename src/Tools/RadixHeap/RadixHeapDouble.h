@@ -1,9 +1,8 @@
 #pragma once
 #include <vector>
-#include <cmath>
 #include "../../Graph/Cell.h"
 
-class RadixHeap
+class RadixHeapDouble
 {
     typedef std::pair<int, Cell*> Element;
     typedef std::vector<Element> Bucket;
@@ -20,8 +19,8 @@ class RadixHeap
     void Insert(Element&& element);
 
 public:
-    RadixHeap(unsigned int maxKeyValue);
-    ~RadixHeap();
+    RadixHeapDouble(unsigned int maxKeyValue);
+    ~RadixHeapDouble();
 
     int Size() const { return elementCount; }
     bool Empty() const;
