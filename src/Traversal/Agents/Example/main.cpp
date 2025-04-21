@@ -32,13 +32,13 @@ int main()
     cout << "\n\n";
 
     AStarAgent aStar(maze.start);
-    DijkstraAgent dijksta(maze.start);
-    BFSAgent bfs(maze.start);
+    // DijkstraAgent dijksta(maze.start);
+    // BFSAgent bfs(maze.start);
 
     AgentManager manager;
     manager.AddAgent(aStar);
-    manager.AddAgent(dijksta);
-    manager.AddAgent(bfs);
+    // manager.AddAgent(dijksta);
+    // manager.AddAgent(bfs);
 
     while (manager.HasAgents())
     {
@@ -47,8 +47,8 @@ int main()
 
     cout << "\n-------------------- Stats --------------------\n";
     PrintStats(aStar, maze);
-    PrintStats(dijksta, maze);
-    PrintStats(bfs, maze);
+    // PrintStats(dijksta, maze);
+    // PrintStats(bfs, maze);
 
     return 0;
 }

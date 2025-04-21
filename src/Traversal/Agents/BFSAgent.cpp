@@ -21,7 +21,7 @@ std::future<vector<Cell*>> BFSAgent::CalculatePath(Mode mode, Maze& maze)
                 Cell* target = CalculateUtility(maze);
 
                 // todo: replace A_Star with BFS
-                return A_Star::FindPath(maze, maze.start, target);
+                return A_Star::FindPath(maze, currCell, target);
             });
     }
 

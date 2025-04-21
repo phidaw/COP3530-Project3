@@ -82,34 +82,36 @@ Cell* RadixHeapTriple::ExtractMin()
 
     // get Triple with minimal priority
     int kvpIndex = 0;
-    Triple prev = b[kvpIndex];
+    Triple* prev = &b[kvpIndex];
     for (int i = 1; i < b.size(); i++)
     {
         int k1 = b[i].first();
         int k2 = b[i].second();
         // update min. if curr first priority is lower in value
         // otherwise, if they're equal compare second priority
-        if (k1 < prev.first() || k1 == prev.first() && k2 < prev.second())
+        if (k1 < prev->first() || k1 == prev->first() && k2 < prev->second())
         {
-            prev = b[i];
+            prev = &b[i];
             kvpIndex = i;
         }
     }
 
+    // create copy of min element
+    auto min = *prev;
     // extract minimal Triple
-    Triple& p = b[kvpIndex];
     b.erase(b.begin() + kvpIndex);
+    elementCount--;
 
     // if lastDeleted is the same value as newly deleted,
     // there's no need to redistribute the bucket's elements (if any)
-    if (lastDeleted == p.first())
+    if (lastDeleted == min.first())
     {
         if (b.empty())
             CalculateLowestOccupiedBucket();
-        return p.third();
+        return min.third();
     }
 
-    lastDeleted = p.first();
+    lastDeleted = min.first();
 
     // redistribute items using new lastDeleted
     int size = b.size();
@@ -123,6 +125,5 @@ Cell* RadixHeapTriple::ExtractMin()
     if (size == 0)
         CalculateLowestOccupiedBucket();
 
-    elementCount--;
-    return p.third();
+    return min.third();
 }

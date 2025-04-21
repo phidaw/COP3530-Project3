@@ -93,9 +93,11 @@ Cell* RadixHeapDouble::ExtractMin()
         }
     }
 
-    // extract minimal element
+    // create copy of min element
     auto p = b[kvpIndex];
+    // extract minimal element
     b.erase(b.begin() + kvpIndex);
+    elementCount--;
 
     // if lastDeleted is the same value as newly deleted,
     // there's no need to redistribute the bucket's elements (if any)
@@ -120,6 +122,5 @@ Cell* RadixHeapDouble::ExtractMin()
     if (size == 0)
         CalculateLowestOccupiedBucket();
 
-    elementCount--;
     return p.second;
 }

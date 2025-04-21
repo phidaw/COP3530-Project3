@@ -20,7 +20,7 @@ std::future<vector<Cell*>> DijkstraAgent::CalculatePath(Mode mode, Maze& maze)
                 Cell* target = CalculateUtility(maze);
 
                 // todo: replace A_Star with Dijkstra
-                return A_Star::FindPath(maze, maze.start, target);
+                return A_Star::FindPath(maze, currCell, target);
             });
     }
 

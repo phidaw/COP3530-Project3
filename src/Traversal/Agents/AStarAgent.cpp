@@ -20,7 +20,7 @@ std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
                 // todo phi: limit path
                 // limiting path length since current objective can change frequently
                 Cell* target = CalculateUtility(maze);
-                return A_Star::FindPath(maze, maze.start, target);
+                return A_Star::FindPath(maze, currCell, target);
             });
     }
 

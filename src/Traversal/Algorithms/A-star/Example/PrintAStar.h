@@ -21,7 +21,6 @@ struct PrintAStar
 
 inline void PrintAStar::Execute(Maze& maze, bool limitPath, vector<Cell*> path)
 {
-    string dirToStr[4] {"N", "E", "S", "W" };
     path = !path.empty() ? path : A_Star::FindPath(maze, maze.start, maze.end, limitPath);
 
     cout << "start: " << maze.start->pos << endl;
