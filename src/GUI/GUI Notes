@@ -4,97 +4,19 @@ Along with an option to select which traversal mode should be used
 -if going to do collectables, need a way to animate the agents movement
 */
 /*Plan:
--Set up buttons that activate algorithms when clicked
--Make place holders for coding visuals for buttons and maze
+-Set up buttons that activate algorithms when clicked, already set up, just needs guts
+x-Make place holders for coding visuals for buttons and maze, done!
 -Read through maze to build it as a container(container))
 -Then read through algorithm results to then update maze visualizer
 --If want to see how algorithm works, get paths that aren't final and display with different visual (phantom)
--Make sure to display based on size if there are different sized mazes*****
+x-Make sure to display based on size if there are different sized mazes***** DONE!!!!!!!!
 */
-//Right now this is just old code for me to decipher to get SFML buttons and graphics working
 
-#include <SFML/Graphics.hpp>
-#include <functional>
-#include <SFML/Graphics.hpp>
-
-class Button {
-
-    sf::Sprite sprite;
-    sf::Vector2f position;
-    std::function<void(void)> clicky;
-
-public:
-    Button(sf::Vector2f pos, std::function<void(void)> onClick);
-    sf::Vector2f getPosition();
-    sf::Sprite& getSprite();
-    void setSprite(sf::Sprite& new_sprite);
-    void onClick();
-};
-
-Button::Button(sf::Vector2f pos, std::function<void()> onClick) {
-    position = pos;
-    clicky = onClick;
-    sprite = nullptr;
-}
-sf::Vector2f Button::getPosition() {
-    return position;
-}
-sf::Sprite& Button::getSprite() {
-    return sprite;
-}
-void Button::setSprite(sf::Sprite& new_sprite) {
-    sprite = new_sprite;
-}
-void Button::onClick() {
-    if (clicky) {
-        clicky();
-    }
-}
-///////
-//No longer button class
-//Do stuff below to make window with functionality
-//No longer releveant
-sf::RenderWindow window;
-window.create(sf::VideoMode(800, 600), "Maze Maestro");
-Button debugButton(sf::Vector2f(20, 515), [this] {foo();});
-                                    //pos^
-sf::Texture debugTexture;
-if (!debugTexture.loadFromFile("images/debug.png")) { //Replace debug with image name, this also loads the images into the code
-        std::cerr << "Failed to load debug texture"; //Replace with proper error message
-    }
-else { //This creates the sprite of the button, and places it in pos^, and assigns the sprite to the appropriate button
-        debugSprite.setTexture(debugTexture);
-        debugSprite.setPosition(debugButton.getPosition());
-        debugButton.setSprite(debugSprite); 
-    }
-
-while (toolbox.window.isOpen()) {
-    gameLoop(); //Function that repeats for as long as the window is open
-}
-void render(){
-    window.clear();
-    if (debugButton.getSprite()) {
-        window.draw(debugButton.getSprite()); //Maybe make it a * in the ()
-    }
-    window.display();
-}
-
-void gameLoop(){
-    sf::Event event;
-    while (window.pollEvent(event)){
-        if (event.type == sf::Event::Closed){
-            window.close();
-        }
-        if (event.type == sf::Event::MouseButtonPressed){
-            sf::Vector2i mouseSpot = sf::Mouse::getPosition(window);
-            if (debugButton.getSprite() && debugButton.getSprite().getGlobalBounds().contains(mouseSpot.x, mouseSpot.y)) {
-                debugButton.onClick();
-            }
-
-        }
-        
-    }
-    render();
-
-    sf::sleep(sf::milliseconds(10));
-}
+/*How to use GUI code:
+-Find main or make it? (Don't know how to do that on GitHub)
+-In main just have return launch();
+-Edit paths to images to work with github
+-Tell me if you need me to edit CMake to work with SFML
+-And you're done!
+-It should work!
+*/
