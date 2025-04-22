@@ -1,0 +1,22 @@
+/*Notes(To-do):
+-in-addition to a section dedicated to the maze, there needs to be a option to select one or more algorithms to run at the same time. 
+Along with an option to select which traversal mode should be used
+-if going to do collectables, need a way to animate the agents movement
+*/
+/*Plan:
+-Set up buttons that activate algorithms when clicked, already set up, just needs guts
+x-Make place holders for coding visuals for buttons and maze, done!
+-Read through maze to build it as a container(container))
+-Then read through algorithm results to then update maze visualizer
+--If want to see how algorithm works, get paths that aren't final and display with different visual (phantom)
+x-Make sure to display based on size if there are different sized mazes***** DONE!!!!!!!!
+*/
+
+/*How to use GUI code:
+-Find main or make it? (Don't know how to do that on GitHub)
+-In main just have return launch();
+-Edit paths to images to work with github
+-Tell me if you need me to edit CMake to work with SFML
+-And you're done!
+-It should work!
+*/
