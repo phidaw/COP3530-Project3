@@ -29,7 +29,7 @@ Toolbox::Toolbox() {
 
 
 
-    if (!OneUpTexture.loadFromFile("images/1Up.png")) {
+    if (!OneUpTexture.loadFromFile("resources/images/1Up.png")) {
         std::cerr << "Failed to load 1Up texture";
     }
     else { //This creates the sprite of the button, and places it in pos^, and assigns the sprite to the appropriate button
@@ -37,7 +37,7 @@ Toolbox::Toolbox() {
         OneUpSprite.setPosition(OneUpButton->getPosition());
         OneUpButton->setSprite(&OneUpSprite);
     }
-    if (!FiveUpTexture.loadFromFile("images/5Up.png")) {
+    if (!FiveUpTexture.loadFromFile("resources/images/5Up.png")) {
         std::cerr << "Failed to load 5Up texture";
     }
     else {
@@ -45,7 +45,7 @@ Toolbox::Toolbox() {
         FiveUpSprite.setPosition(FiveUpButton->getPosition());
         FiveUpButton->setSprite(&FiveUpSprite);
     }
-    if (!TenUpTexture.loadFromFile("images/10Up.png")) {
+    if (!TenUpTexture.loadFromFile("resources/images/10Up.png")) {
         std::cerr << "Failed to load 10Up texture";
     }
     else {
@@ -53,7 +53,7 @@ Toolbox::Toolbox() {
         TenUpSprite.setPosition(TenUpButton->getPosition());
         TenUpButton->setSprite(&TenUpSprite);
     }
-    if (!HundredUpTexture.loadFromFile("images/100Up.png")) {
+    if (!HundredUpTexture.loadFromFile("resources/images/100Up.png")) {
         std::cerr << "Failed to load 100Up texture";
     }
     else {
@@ -62,7 +62,7 @@ Toolbox::Toolbox() {
         HundredUpButton->setSprite(&HundredUpSprite);
     }
 
-    if (!OneDownTexture.loadFromFile("images/1Down.png")) {
+    if (!OneDownTexture.loadFromFile("resources/images/1Down.png")) {
         std::cerr << "Failed to load 1Down texture";
     }
     else {
@@ -70,7 +70,7 @@ Toolbox::Toolbox() {
         OneDownSprite.setPosition(OneDownButton->getPosition());
         OneDownButton->setSprite(&OneDownSprite);
     }
-    if (!FiveDownTexture.loadFromFile("images/5Down.png")) {
+    if (!FiveDownTexture.loadFromFile("resources/images/5Down.png")) {
         std::cerr << "Failed to load 5Down texture";
     }
     else {
@@ -78,7 +78,7 @@ Toolbox::Toolbox() {
         FiveDownSprite.setPosition(FiveDownButton->getPosition());
         FiveDownButton->setSprite(&FiveDownSprite);
     }
-    if (!TenDownTexture.loadFromFile("images/10Down.png")) {
+    if (!TenDownTexture.loadFromFile("resources/images/10Down.png")) {
         std::cerr << "Failed to load 10Down texture";
     }
     else {
@@ -86,7 +86,7 @@ Toolbox::Toolbox() {
         TenDownSprite.setPosition(TenDownButton->getPosition());
         TenDownButton->setSprite(&TenDownSprite);
     }
-    if (!HundredDownTexture.loadFromFile("images/100Down.png")) {
+    if (!HundredDownTexture.loadFromFile("resources/images/100Down.png")) {
         std::cerr << "Failed to load 100Down texture";
     }
     else {
@@ -94,7 +94,7 @@ Toolbox::Toolbox() {
         HundredDownSprite.setPosition(HundredDownButton->getPosition());
         HundredDownButton->setSprite(&HundredDownSprite);
     }
-    if(!mineNumsTexture.loadFromFile("images/digits.png")) {
+    if(!mineNumsTexture.loadFromFile("resources/images/digits.png")) {
         std::cerr << "Failed to load mineNums texture";
     }
     int digitW = 21;
@@ -105,7 +105,7 @@ Toolbox::Toolbox() {
         mineNumsSprite.push_back(tempSprite);
     }
 
-    if (!DijkstraTexture.loadFromFile("images/DijkstraButton.png")) {
+    if (!DijkstraTexture.loadFromFile("resources/images/DijkstraButton.png")) {
         std::cerr << "Failed to load Dijkstra texture";
     }
     else {
@@ -113,7 +113,7 @@ Toolbox::Toolbox() {
         DijkstraSprite.setPosition(DijkstraButton->getPosition());
         DijkstraButton->setSprite(&DijkstraSprite);
     }
-    if (!AStarTexture.loadFromFile("images/AStarButton.png")) {
+    if (!AStarTexture.loadFromFile("resources/images/AStarButton.png")) {
         std::cerr << "Failed to load AStar texture";
     }
     else {
@@ -121,7 +121,7 @@ Toolbox::Toolbox() {
         AStarSprite.setPosition(AStarButton->getPosition());
         AStarButton->setSprite(&AStarSprite);
     }
-    if (!BFSTexture.loadFromFile("images/BFSButton.png")) {
+    if (!BFSTexture.loadFromFile("resources/images/BFSButton.png")) {
         std::cerr << "Failed to load BFS texture";
     }
     else {
@@ -129,7 +129,7 @@ Toolbox::Toolbox() {
         BFSSprite.setPosition(BFSButton->getPosition());
         BFSButton->setSprite(&BFSSprite);
     }
-    if (!ConfirmTexture.loadFromFile("images/ConfirmButton.png")) {
+    if (!ConfirmTexture.loadFromFile("resources/images/ConfirmButton.png")) {
         std::cerr << "Failed to load Confirm texture";
     }
     else {
@@ -137,49 +137,49 @@ Toolbox::Toolbox() {
         ConfirmSprite.setPosition(ConfirmButton->getPosition());
         ConfirmButton->setSprite(&ConfirmSprite);
     }
-    if (!MazeTileTexture.loadFromFile("images/MazeTile.png")) {
+    if (!MazeTileTexture.loadFromFile("resources/images/MazeTile.png")) {
         std::cerr << "Failed to load Maze Tile texture";
     }
     else {
         MazeTileSprite.setTexture(MazeTileTexture);
     }
-    if (!MazePathTexture.loadFromFile("images/MazeTilePath.png")) {
+    if (!MazePathTexture.loadFromFile("resources/images/MazeTilePath.png")) {
         std::cerr << "Failed to load Maze Path texture";
     }
     else {
         MazePathSprite.setTexture(MazePathTexture);
     }
-    if (!MazeSnakeBodyTexture.loadFromFile("images/MazeTileSnakeBody.png")) {
+    if (!MazeSnakeBodyTexture.loadFromFile("resources/images/MazeTileSnakeBody.png")) {
         std::cerr << "Failed to load Maze Snake Body texture";
     }
     else {
         MazeSnakeBodySprite.setTexture(MazeSnakeBodyTexture);
     }
-    if (!MazeSnakeHeadTexture.loadFromFile("images/MazeTileSnakeHead.png")) {
+    if (!MazeSnakeHeadTexture.loadFromFile("resources/images/MazeTileSnakeHead.png")) {
         std::cerr << "Failed to load Maze Snake Head texture";
     }
     else {
         MazeSnakeHeadSprite.setTexture(MazeSnakeHeadTexture);
     }
-    if (!MazeTileTexture16.loadFromFile("images/MazeTile16.png")) {
+    if (!MazeTileTexture16.loadFromFile("resources/images/MazeTile16.png")) {
         std::cerr << "Failed to load Maze Tile 16 bit texture";
     }
     else {
         MazeTileSprite16.setTexture(MazeTileTexture16);
     }
-    if (!MazeTileTexture8.loadFromFile("images/MazeTile8.png")) {
+    if (!MazeTileTexture8.loadFromFile("resources/images/MazeTile8.png")) {
         std::cerr << "Failed to load Maze Tile 8 bit texture";
     }
     else {
         MazeTileSprite8.setTexture(MazeTileTexture8);
     }
-    if (!MiniMazeTileTexture.loadFromFile("images/MiniMazeTile.png")) {
+    if (!MiniMazeTileTexture.loadFromFile("resources/images/MiniMazeTile.png")) {
         std::cerr << "Failed to load Mini Maze Tile texture";
     }
     else {
         MiniMazeTileSprite.setTexture(MiniMazeTileTexture);
     }
-    if (!MiniMazePathTexture.loadFromFile("images/MiniMazeTilePath.png")) {
+    if (!MiniMazePathTexture.loadFromFile("resources/images/MiniMazeTilePath.png")) {
         std::cerr << "Failed to load Mini Maze Path texture";
     }
     else {
