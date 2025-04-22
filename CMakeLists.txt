@@ -3,6 +3,9 @@ project(P3)
 
 set(CMAKE_CXX_STANDARD 14)
 
+set(SFML_DIR "C:/Libraries/SFML-2.5.1/lib/cmake/SFML")
+find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
+
 set(TEST src/Maze/Example/PrintMaze.h
         src/Traversal/Algorithms/Example/PrintAStar.h
         src/Traversal/Algorithms/Example/PrintBFS.h
@@ -58,3 +61,4 @@ add_executable(Agents src/Traversal/Agents/Example/main.cpp
         src/Traversal/Agents/BFSAgent.cpp
         src/Traversal/Agents/BFSAgent.h
 )
+target_link_libraries(P3 sfml-graphics sfml-audio sfml-system)
