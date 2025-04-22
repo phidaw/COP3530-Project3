@@ -12,10 +12,19 @@
 using namespace std;
 
 
-    void render(sf::Text question, sf::Text Answer, string answerAlt);
+    void render();
     void gameLoop();
     int launch();
-    void test();
+    void oneUp();
+    void fiveUp();
+    void tenUp();
+    void hundredUp();
+    void oneDown();
+    void fiveDown();
+    void tenDown();
+    void hundredDown();
+    void confirmation();
+    void PlaceHolder();
 
 
 
