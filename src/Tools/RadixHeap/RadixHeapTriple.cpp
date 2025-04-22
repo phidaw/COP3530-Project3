@@ -1,28 +1,28 @@
 #include <vector>
 #include <cmath>
 #include "../../Graph/Cell.h"
-#include "RadixHeap.h"
+#include "RadixHeapTriple.h"
 
 // ----------------------------------------- Private Functions -----------------------------------------
 
-int RadixHeap::HighestBit(int value)
+int RadixHeapTriple::HighestBit(int value)
 {
     // when value is 0, key and last deleted differed in 0th bit
     // return -1 so that kth bucket is 0th bucket
     return value == 0 ? -1 : trunc(log2(value));
 }
 
-int RadixHeap::GetBucketNum(int key) const
+int RadixHeapTriple::GetBucketNum(int key) const
 {
     // get the (k-1)th bit where the key and lastDeleted differ
     // then add +1 to get the index of the kth bucket
     return HighestBit(key ^ lastDeleted) + 1;
 }
 
-void RadixHeap::CalculateLowestOccupiedBucket()
+void RadixHeapTriple::CalculateLowestOccupiedBucket()
 {
     lowestOccupiedBucket = -1;
-    for (int i = 0; i < numBuckets; i++)
+    for (int i = 0; i < bucketCount; i++)
     {
         if (!buckets[i].empty())
         {
@@ -32,80 +32,86 @@ void RadixHeap::CalculateLowestOccupiedBucket()
     }
 }
 
-void RadixHeap::Insert(Element&& element)
+void RadixHeapTriple::Insert(Triple&& triple)
 {
     // so long as this is called when redistributing a bucket's elements,
-    // the given element's key will never be less than lastDeleted
+    // the given Triple's key will never be less than lastDeleted
 
-    int bucketNum = GetBucketNum(element.first);
-    buckets[bucketNum].push_back(std::move(element));
+    int bucketNum = GetBucketNum(triple.first());
+    buckets[bucketNum].push_back(std::move(triple));
     if (lowestOccupiedBucket < 0 || bucketNum < lowestOccupiedBucket)
         lowestOccupiedBucket = bucketNum;
 }
 
 // ----------------------------------------- Public Functions -----------------------------------------
 
-RadixHeap::RadixHeap(unsigned int maxKeyValue): numBuckets(log2(maxKeyValue) + 1)
+RadixHeapTriple::RadixHeapTriple(unsigned int maxKeyValue): elementCount(0), bucketCount(log2(maxKeyValue) + 1)
 {
-    buckets = new Bucket[numBuckets];
+    buckets = new Bucket[bucketCount];
 }
 
-RadixHeap::~RadixHeap()
+RadixHeapTriple::~RadixHeapTriple()
 {
     delete[] buckets;
 }
 
-bool RadixHeap::Empty() const
+bool RadixHeapTriple::Empty() const
 {
     return lowestOccupiedBucket < 0;
 }
 
-void RadixHeap::Insert(int key, Cell* value)
+void RadixHeapTriple::Insert(int k1, int k2, Cell* value)
 {
     // to maintain monotone invariant, we cannot store keys smaller than lastDeleted
-    if (key < lastDeleted)
+    if (k1 < lastDeleted)
         return;
 
-    int bucketNum = GetBucketNum(key);
-    buckets[bucketNum].emplace_back(key, value);
+    elementCount++;
+    int bucketNum = GetBucketNum(k1);
+    buckets[bucketNum].emplace_back(k1, k2, value);
     if (lowestOccupiedBucket < 0 || bucketNum < lowestOccupiedBucket)
         lowestOccupiedBucket = bucketNum;
 }
 
-Cell* RadixHeap::ExtractMin()
+Cell* RadixHeapTriple::ExtractMin()
 {
     if (Empty()) return nullptr;
 
     // get first non-empty bucket
     Bucket& b = buckets[lowestOccupiedBucket];
 
-    // get element with minimal priority
+    // get Triple with minimal priority
     int kvpIndex = 0;
-    int minKey = b[kvpIndex].first;
+    Triple* prev = &b[kvpIndex];
     for (int i = 1; i < b.size(); i++)
     {
-        int key = b[i].first;
-        if (key < minKey)
+        int k1 = b[i].first();
+        int k2 = b[i].second();
+        // update min. if curr first priority is lower in value
+        // otherwise, if they're equal compare second priority
+        if (k1 < prev->first() || k1 == prev->first() && k2 < prev->second())
         {
-            minKey = key;
+            prev = &b[i];
             kvpIndex = i;
         }
     }
 
-    // extract minimal element
-    auto p = b[kvpIndex];
+    // create copy of min element
+    auto min = *prev;
+    // extract minimal Triple
     b.erase(b.begin() + kvpIndex);
+    elementCount--;
 
     // if lastDeleted is the same value as newly deleted,
     // there's no need to redistribute the bucket's elements (if any)
-    if (lastDeleted == p.first)
+    if (lastDeleted == min.first())
     {
         if (b.empty())
             CalculateLowestOccupiedBucket();
-        return p.second;
+        return min.third();
     }
 
-    lastDeleted = p.first;
+    lastDeleted = min.first();
 
     // redistribute items using new lastDeleted
     int size = b.size();
@@ -119,5 +125,5 @@ Cell* RadixHeap::ExtractMin()
     if (size == 0)
         CalculateLowestOccupiedBucket();
 
-    return p.second;
+    return min.third();
 }

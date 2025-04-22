@@ -5,14 +5,14 @@
 #include "../../Maze/Maze.h"
 #include "TraversalAgent.h"
 
-class AStarAgent : public TraversalAgent
+class BFSAgent : public TraversalAgent
 {
     void UpdateVisuals() override;
     void UpdateTimer() override;
 public:
-    AStarAgent(Cell* startCell) {
+    BFSAgent(Cell* startCell) {
         currCell = startCell;
-        name = "A*";
+        name = "BFS";
     }
     std::future<vector<Cell*>> CalculatePath(Mode mode, Maze& maze) override;
 };

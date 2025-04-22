@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "../../Graph/Cell.h"
 #include "TraversalAgent.h"
-#include "../Algorithms/A-star/Example/PrintAStar.h"
+#include "../Algorithms/Example/PrintAStar.h"
 
 class AgentManager
 {
@@ -24,6 +24,18 @@ public:
     {
         agents.erase(&agent);
         threads.erase(&agent);
+    }
+
+    void ResetAgentTimeCounters() const
+    {
+        for (auto* agent : agents)
+            agent->ResetTimeCounter();
+    }
+
+    void Reset()
+    {
+        agents.clear();
+        threads.clear();
     }
 
     void RunAgents(Maze& maze, TraversalAgent::Mode mode = TraversalAgent::Mode::traversal)

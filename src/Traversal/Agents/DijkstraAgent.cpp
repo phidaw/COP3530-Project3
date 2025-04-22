@@ -1,20 +1,21 @@
 #include <future>
 #include "../../Maze/Maze.h"
 #include "../Algorithms/A-star/A_Star.h"
-#include "AStarAgent.h"
+#include "../Algorithms/Dijsktras/Dijkstra.h"
+#include "DijkstraAgent.h"
 
-void AStarAgent::UpdateVisuals()
+void DijkstraAgent::UpdateVisuals()
 {
     // todo -- update GUI here --
     // use this->currCell
 }
 
-void AStarAgent::UpdateTimer()
+void DijkstraAgent::UpdateTimer()
 {
     std::cout << name << "'s total time: " << totalTimeSpent << std::endl;
 }
 
-std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
+std::future<vector<Cell*>> DijkstraAgent::CalculatePath(Mode mode, Maze& maze)
 {
     if (mode == TraversalAgent::Mode::collecting)
     {
@@ -22,15 +23,24 @@ std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
         return std::async(std::launch::async,
             [this, &maze]()
             {
-                // todo phi: limit path
-                // limiting path length since current objective can change frequently
+                const unordered_set<Collectable*> items = maze.graph.
+                    regionMap.GetNearbyCollectables(currCell);
 
-                Cell* target = CalculateUtility(maze);
+                // assign cells of all nearby items and maze exit as targets
+                vector<Cell*> targets(items.size()+1);
+                int i = 0;
+                for (auto* item : items)
+                {
+                    // only include non-collected items
+                    if (itemsCollected.find(item) == itemsCollected.end())
+                        targets[i++] = item->occupiedCell;
+                }
+                targets[i] = maze.end;
 
-                // timing execution time of A*
+                // timing execution time of Dijksta's
                 const auto start = std::chrono::high_resolution_clock::now();
 
-                auto path = A_Star::FindPath(maze, currCell, target);
+                auto path = Dijkstra::FindPath(maze, currCell, targets);
 
                 const auto end = std::chrono::high_resolution_clock::now();
                 const std::chrono::duration<double, std::milli> elapsed = end - start;
@@ -41,13 +51,13 @@ std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
             });
     }
 
-    // simple mode w/ no collectables, so no need to limit path
+    // simple mode w/ no collectables
     return std::async(std::launch::async,
         [this, &maze]()
         {
             const auto start = std::chrono::high_resolution_clock::now();
 
-            auto path = A_Star::FindPath(maze, maze.start, maze.end);
+            auto path = Dijkstra::FindPath(maze, maze.start, {maze.end});
 
             const auto end = std::chrono::high_resolution_clock::now();
             const std::chrono::duration<double, std::milli> elapsed = end - start;

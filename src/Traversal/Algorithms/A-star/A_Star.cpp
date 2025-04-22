@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "../../../Graph/Cell.h"
 #include "../../../Maze/Maze.h"
-#include "../../../Tools/RadixHeap/RadixHeap.h"
+#include "../../../Tools/RadixHeap/RadixHeapTriple.h"
 #include "../../PathUtilities/PathUtilities.h"
 #include "A_Star.h"
 
@@ -13,16 +13,16 @@ using std::unordered_map;
 
 Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
                     unordered_map<Cell*, Cell*>& cameFrom,
-                    unordered_map<Cell*, int>& costSoFar,
                     const int pathLimit)
 {
     // manages priorities
-    RadixHeap frontier(maze.graph.GetCellNum());
-    frontier.Insert(0, start);
+    RadixHeapTriple frontier(maze.graph.GetCellNum());
     // manages G costs (dist from start to given cell)
-    costSoFar[start] = 0;
-    // manages predecessors
+    unordered_map<Cell*, int> costSoFar;
+    // cameFrom: manages predecessors
     cameFrom[start] = start;
+    costSoFar[start] = 0;
+    frontier.Insert(0, 0, start);
 
     while (!frontier.Empty())
     {
@@ -33,7 +33,7 @@ Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
         if (curr == end)
             return curr;
 
-        // limit path length (due to randomness of maze, it will not be exact)
+        // limit path length (due to arc of equal f-costs it will not be exact)
         if (pathLimit > 0 && costSoFar[curr] >= pathLimit)
             return curr;
 
@@ -55,9 +55,14 @@ Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
                 // set G cost
                 costSoFar[neighbor] = newCost;
 
-                // set f cost = G cost + H cost (dist to end)
-                int priority = newCost + PathUtilities::ManhattanDist(neighbor->pos, end->pos);
-                frontier.Insert(priority, neighbor);
+                // calculate h cost
+                int distToEnd = PathUtilities::ManhattanDist(neighbor->pos, end->pos);
+
+                // set f cost = G cost + H cost
+                int priority = newCost + distToEnd;
+
+                // sort based on priority first, and use distToEnd as a tiebreaker
+                frontier.Insert(priority, distToEnd, neighbor);
 
                 // set neighbor's predecessor
                 cameFrom[neighbor] = curr;
@@ -71,14 +76,12 @@ Cell* A_Star::Search(Maze& maze, Cell* start, Cell* end,
 
 vector<Cell*> A_Star::FindPath(Maze& maze, Cell* start, Cell* end, bool limitPath)
 {
-    // todo phi: find a more dynamic and consistent way to limit path
-    int pathLimit = limitPath ? 5 : -1; // -1 == no limit
+    int pathLimit = limitPath ? 10 : -1; // -1 == no limit
     unordered_map<Cell*, Cell*> cameFrom; // track predecessors
-    unordered_map<Cell*, int> costSoFar; // track priorities
     vector<Cell*> path;
 
     // find path between start and end (returned path will not contain start)
-    Cell* pathEnd = Search(maze, start, end, cameFrom, costSoFar, pathLimit);
+    Cell* pathEnd = Search(maze, start, end, cameFrom, pathLimit);
 
     // reconstruct path
     Cell* curr = pathEnd;
