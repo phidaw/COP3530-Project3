@@ -48,9 +48,16 @@ class Toolbox {
     sf::Texture MazeTileTexture8;
     sf::Texture MiniMazeTileTexture;
     sf::Texture MazePathTexture;
+    sf::Texture MazePathTexture16;
+    sf::Texture MazePathTexture8;
     sf::Texture MiniMazePathTexture;
     sf::Texture MazeSnakeBodyTexture;
+    sf::Texture MazeSnakeBodyTexture16;
+    sf::Texture MazeSnakeBodyTexture8;
+    sf::Texture MiniMazeSnakeTexture;
     sf::Texture MazeSnakeHeadTexture;
+    sf::Texture MazeSnakeHeadTexture16;
+
 
 
 
@@ -84,9 +91,16 @@ public:
     sf::Sprite MazeTileSprite8;
     sf::Sprite MiniMazeTileSprite;
     sf::Sprite MazePathSprite;
+    sf::Sprite MazePathSprite16;
+    sf::Sprite MazePathSprite8;
     sf::Sprite MiniMazePathSprite;
     sf::Sprite MazeSnakeBodySprite;
+    sf::Sprite MazeSnakeBodySprite16;
+    sf::Sprite MazeSnakeBodySprite8;
+    sf::Sprite MiniMazeSnakeSprite;
     sf::Sprite MazeSnakeHeadSprite;
+    sf::Sprite MazeSnakeHeadSprite16;
+
 
 };
 

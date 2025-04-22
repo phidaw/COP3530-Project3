@@ -185,6 +185,42 @@ Toolbox::Toolbox() {
     else {
         MiniMazePathSprite.setTexture(MiniMazePathTexture);
     }
+    if (!MazePathTexture16.loadFromFile("resources/images/MazeTilePath16.png")) {
+        std::cerr << "Failed to load Maze Path 16 bit texture";
+    }
+    else {
+        MazePathSprite16.setTexture(MazePathTexture16);
+    }
+    if (!MazePathTexture8.loadFromFile("resources/images/MazeTilePath8.png")) {
+        std::cerr << "Failed to load Maze Path 8 bit texture";
+    }
+    else {
+        MazePathSprite8.setTexture(MazePathTexture8);
+    }
+    if (!MazeSnakeBodyTexture16.loadFromFile("resources/images/MazeTileSnakeBody16.png")) {
+        std::cerr << "Failed to load Maze Snake Body 16 bit texture";
+    }
+    else {
+        MazeSnakeBodySprite16.setTexture(MazeSnakeBodyTexture16);
+    }
+    if (!MazeSnakeBodyTexture8.loadFromFile("resources/images/MazeTileSnakeBody8.png")) {
+        std::cerr << "Failed to load Maze Snake Body 8 bit texture";
+    }
+    else {
+        MazeSnakeBodySprite8.setTexture(MazeSnakeBodyTexture8);
+    }
+    if (!MiniMazeSnakeTexture.loadFromFile("resources/images/MiniMazeTileSnake.png")) {
+        std::cerr << "Failed to load Mini Maze Snake texture";
+    }
+    else {
+        MiniMazeSnakeSprite.setTexture(MiniMazeSnakeTexture);
+    }
+    if (!MazeSnakeHeadTexture16.loadFromFile("resources/images/MazeTileSnakeHead16.png")) {
+        std::cerr << "Failed to load Maze Snake Head 16 bit texture";
+    }
+    else {
+        MazeSnakeHeadSprite16.setTexture(MazeSnakeHeadTexture16);
+    }
 }
 Toolbox &Toolbox::getInstance() {
     if (instance == nullptr) {
