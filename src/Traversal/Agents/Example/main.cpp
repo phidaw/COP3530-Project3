@@ -32,13 +32,16 @@ int main()
     cout << "\n\n";
 
     AStarAgent aStar(maze.start);
-    // DijkstraAgent dijksta(maze.start);
-    // BFSAgent bfs(maze.start);
+    DijkstraAgent dijksta(maze.start);
+    BFSAgent bfs(maze.start);
 
     AgentManager manager;
     manager.AddAgent(aStar);
-    // manager.AddAgent(dijksta);
-    // manager.AddAgent(bfs);
+    manager.AddAgent(dijksta);
+    manager.AddAgent(bfs);
+
+    // call this each time before running agents
+    manager.ResetAgentTimeCounters();
 
     while (manager.HasAgents())
     {
@@ -47,15 +50,16 @@ int main()
 
     cout << "\n-------------------- Stats --------------------\n";
     PrintStats(aStar, maze);
-    // PrintStats(dijksta, maze);
-    // PrintStats(bfs, maze);
+    PrintStats(dijksta, maze);
+    PrintStats(bfs, maze);
 
     return 0;
 }
 
 void PrintStats(TraversalAgent& agent, Maze& maze)
 {
+    cout << agent.GetName() << "'s total execution time: " << agent.GetTotalTimeSpent() << "ms" << endl;
     cout << agent.GetName() << " traveled " << agent.GetTotalDistanceTraveled() << " cells" << endl;
     cout << agent.GetName() << " collected: " << agent.GetTotalItemsCollected() << " of "
-        << maze.graph.regionMap.GetTotalItemCount() << " items" << endl;
+        << maze.graph.regionMap.GetTotalItemCount() << " items" << "\n\n";
 }

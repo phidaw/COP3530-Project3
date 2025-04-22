@@ -2,8 +2,8 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "../../../../Maze/Maze.h"
-#include "../BFS.h"
+#include "../../../Maze/Maze.h"
+#include "../BFS/BFS.h"
 
 using std::cout;
 using std::endl;

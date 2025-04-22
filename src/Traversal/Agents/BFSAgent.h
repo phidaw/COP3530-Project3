@@ -8,6 +8,7 @@
 class BFSAgent : public TraversalAgent
 {
     void UpdateVisuals() override;
+    void UpdateTimer() override;
 public:
     BFSAgent(Cell* startCell) {
         currCell = startCell;

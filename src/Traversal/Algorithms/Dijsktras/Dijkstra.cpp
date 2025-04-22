@@ -1,6 +1,7 @@
 #include <unordered_map>
 #include "../../../Graph/Cell.h"
 #include "../../../Maze/Maze.h"
+#include "../../../Tools/RadixHeap/RadixHeapDouble.h"
 #include "../../PathUtilities/PathUtilities.h"
 #include "Dijkstra.h"
 
@@ -10,7 +11,8 @@ Cell* Dijkstra::Search(Maze& maze, Cell* start, const vector<Cell*>& targets,
                        unordered_map<Cell*, Cell*>& cameFrom,
                        unordered_map<Cell*, int>& costSoFar)
 {
-    MinHeap<Cell*> frontier(start, 0);
+    RadixHeapDouble frontier(maze.graph.GetCellNum());
+    frontier.Insert(0, start);
     costSoFar[start] = 0;
     cameFrom[start] = start;
 
@@ -19,9 +21,9 @@ Cell* Dijkstra::Search(Maze& maze, Cell* start, const vector<Cell*>& targets,
     for (Cell* target : targets)
         targetsFound[target] = false;
 
-    while (!frontier.empty())
+    while (!frontier.Empty())
     {
-        Cell* curr = frontier.extract();
+        Cell* curr = frontier.ExtractMin();
 
         // Check if current cell is a target
         for (Cell* target : targets)
@@ -48,7 +50,7 @@ Cell* Dijkstra::Search(Maze& maze, Cell* start, const vector<Cell*>& targets,
             if (costSoFar.count(neighbor) == 0 || newCost < costSoFar[neighbor])
             {
                 costSoFar[neighbor] = newCost;
-                frontier.insert(neighbor, newCost);
+                frontier.Insert(newCost, neighbor);
                 cameFrom[neighbor] = curr;
             }
         }

@@ -5,8 +5,8 @@
 #include <unordered_set>
 #include <cmath>
 #include <future>
+#include "../../Maze/Maze.h"
 #include "../../Graph/RegionMap.h"
-#include "../Algorithms/A-star/A_Star.h"
 #include "../../Graph/Collectable.h"
 #include "../PathUtilities/PathUtilities.h"
 
@@ -21,18 +21,11 @@ public:
     virtual std::future<vector<Cell*>> CalculatePath(Mode mode, Maze& maze) = 0;
     void Move(vector<Cell*>& path, const Cell* exit);
 
-    virtual void CollectItem(Collectable* item) {
-        itemsCollected.emplace(item);
-    }
-    static double Logit(double x, double shift = 0, double stretch = 1) {
-        if (x == 1) return x;
-        x = 1/x;
-        return (log10(x/(1.0-x)) / LOG_10_e + shift) / stretch;
-    }
-
+    void ResetTimeCounter() { totalTimeSpent = 0.0; }
     std::string GetName() const { return name; }
     bool CheckIfExitedMaze() const { return exitedMaze; }
     int GetTotalDistanceTraveled() const { return totalDistTraveled; }
+    double GetTotalTimeSpent() const { return totalTimeSpent; }
     int GetTotalItemsCollected() const { return itemsCollected.size(); }
 
 protected:
@@ -41,11 +34,19 @@ protected:
     Cell* currCell = nullptr;
     bool exitedMaze = false;
     int totalDistTraveled = 0;
-    unordered_set<Collectable*> itemsCollected;
+    double totalTimeSpent = 0.0;
+    std::unordered_set<Collectable*> itemsCollected;
 
     virtual void UpdateVisuals() = 0;
+    virtual void UpdateTimer() = 0;
     Collectable* GetMaxItemUtility(double& maxItemUtility, const Maze& maze);
     Cell* CalculateUtility(Maze& maze);
+
+    static double Logit(double x, double shift = 0, double stretch = 1) {
+        if (x == 1) return x;
+        x = 1/x;
+        return (log10(x/(1.0-x)) / LOG_10_e + shift) / stretch;
+    }
 };
 
 inline Collectable* TraversalAgent::GetMaxItemUtility(double& maxItemUtility, const Maze& maze)
@@ -136,5 +137,8 @@ inline void TraversalAgent::Move(vector<Cell*>& path, const Cell* exit)
     }
 
     if (currCell == exit)
+    {
         exitedMaze = true;
+        UpdateTimer();
+    }
 }

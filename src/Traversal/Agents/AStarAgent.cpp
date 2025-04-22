@@ -9,6 +9,11 @@ void AStarAgent::UpdateVisuals()
     // use this->currCell
 }
 
+void AStarAgent::UpdateTimer()
+{
+    std::cout << name << "'s total time: " << totalTimeSpent << std::endl;
+}
+
 std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
 {
     if (mode == TraversalAgent::Mode::collecting)
@@ -19,15 +24,36 @@ std::future<vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
             {
                 // todo phi: limit path
                 // limiting path length since current objective can change frequently
+
                 Cell* target = CalculateUtility(maze);
-                return A_Star::FindPath(maze, currCell, target);
+
+                // timing execution time of A*
+                const auto start = std::chrono::high_resolution_clock::now();
+
+                auto path = A_Star::FindPath(maze, currCell, target);
+
+                const auto end = std::chrono::high_resolution_clock::now();
+                const std::chrono::duration<double, std::milli> elapsed = end - start;
+
+                totalTimeSpent += elapsed.count();
+
+                return path;
             });
     }
 
     // simple mode w/ no collectables, so no need to limit path
     return std::async(std::launch::async,
-        [&maze]()
+        [this, &maze]()
         {
-            return A_Star::FindPath(maze, maze.start, maze.end);
+            const auto start = std::chrono::high_resolution_clock::now();
+
+            auto path = A_Star::FindPath(maze, maze.start, maze.end);
+
+            const auto end = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double, std::milli> elapsed = end - start;
+
+            totalTimeSpent += elapsed.count();
+
+            return path;
         });
 }

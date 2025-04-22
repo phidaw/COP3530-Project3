@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include "../../../Graph/Cell.h"
 #include "../../../Maze/Maze.h"
-#include "../../../Tools/MinHeap/MinHeap.h"
 
 using std::vector;
 using std::unordered_map;

@@ -1,13 +1,18 @@
 #include <future>
 #include "../../Maze/Maze.h"
 #include "../Algorithms/A-star/A_Star.h"
-#include "AStarAgent.h"
+#include "../Algorithms/BFS/BFS.h"
 #include "BFSAgent.h"
 
 void BFSAgent::UpdateVisuals()
 {
     // todo -- update GUI here --
     // use this->currCell
+}
+
+void BFSAgent::UpdateTimer()
+{
+    std::cout << name << "'s total time: " << totalTimeSpent << std::endl;
 }
 
 std::future<vector<Cell*>> BFSAgent::CalculatePath(Mode mode, Maze& maze)
@@ -20,16 +25,33 @@ std::future<vector<Cell*>> BFSAgent::CalculatePath(Mode mode, Maze& maze)
             {
                 Cell* target = CalculateUtility(maze);
 
-                // todo: replace A_Star with BFS
-                return A_Star::FindPath(maze, currCell, target);
+                // timing execution time of BFS
+                const auto start = std::chrono::high_resolution_clock::now();
+
+                auto path = BFS::FindPath(maze, currCell, target);
+
+                const auto end = std::chrono::high_resolution_clock::now();
+                const std::chrono::duration<double, std::milli> elapsed = end - start;
+
+                totalTimeSpent += elapsed.count();
+
+                return path;
             });
     }
 
-    // simple mode w/ no collectables, so no need to limit path
+    // simple mode w/ no collectables
     return std::async(std::launch::async,
-        [&maze]()
+        [this, &maze]()
         {
-            // todo: replace A_Star with BFS
-            return A_Star::FindPath(maze, maze.start, maze.end);
+            const auto start = std::chrono::high_resolution_clock::now();
+
+            auto path = BFS::FindPath(maze, maze.start, maze.end);
+
+            const auto end = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double, std::milli> elapsed = end - start;
+
+            totalTimeSpent += elapsed.count();
+
+            return path;
         });
 }

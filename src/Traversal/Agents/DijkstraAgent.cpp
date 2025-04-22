@@ -1,12 +1,18 @@
 #include <future>
 #include "../../Maze/Maze.h"
 #include "../Algorithms/A-star/A_Star.h"
+#include "../Algorithms/Dijsktras/Dijkstra.h"
 #include "DijkstraAgent.h"
 
 void DijkstraAgent::UpdateVisuals()
 {
     // todo -- update GUI here --
     // use this->currCell
+}
+
+void DijkstraAgent::UpdateTimer()
+{
+    std::cout << name << "'s total time: " << totalTimeSpent << std::endl;
 }
 
 std::future<vector<Cell*>> DijkstraAgent::CalculatePath(Mode mode, Maze& maze)
@@ -17,18 +23,47 @@ std::future<vector<Cell*>> DijkstraAgent::CalculatePath(Mode mode, Maze& maze)
         return std::async(std::launch::async,
             [this, &maze]()
             {
-                Cell* target = CalculateUtility(maze);
+                const unordered_set<Collectable*> items = maze.graph.
+                    regionMap.GetNearbyCollectables(currCell);
 
-                // todo: replace A_Star with Dijkstra
-                return A_Star::FindPath(maze, currCell, target);
+                // assign cells of all nearby items and maze exit as targets
+                vector<Cell*> targets(items.size()+1);
+                int i = 0;
+                for (auto* item : items)
+                {
+                    // only include non-collected items
+                    if (itemsCollected.find(item) == itemsCollected.end())
+                        targets[i++] = item->occupiedCell;
+                }
+                targets[i] = maze.end;
+
+                // timing execution time of Dijksta's
+                const auto start = std::chrono::high_resolution_clock::now();
+
+                auto path = Dijkstra::FindPath(maze, currCell, targets);
+
+                const auto end = std::chrono::high_resolution_clock::now();
+                const std::chrono::duration<double, std::milli> elapsed = end - start;
+
+                totalTimeSpent += elapsed.count();
+
+                return path;
             });
     }
 
-    // simple mode w/ no collectables, so no need to limit path
+    // simple mode w/ no collectables
     return std::async(std::launch::async,
-        [&maze]()
+        [this, &maze]()
         {
-            // todo: replace A_Star with Dijkstra
-            return A_Star::FindPath(maze, maze.start, maze.end);
+            const auto start = std::chrono::high_resolution_clock::now();
+
+            auto path = Dijkstra::FindPath(maze, maze.start, {maze.end});
+
+            const auto end = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double, std::milli> elapsed = end - start;
+
+            totalTimeSpent += elapsed.count();
+
+            return path;
         });
 }

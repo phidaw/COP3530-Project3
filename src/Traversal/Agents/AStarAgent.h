@@ -8,6 +8,7 @@
 class AStarAgent : public TraversalAgent
 {
     void UpdateVisuals() override;
+    void UpdateTimer() override;
 public:
     AStarAgent(Cell* startCell) {
         currCell = startCell;

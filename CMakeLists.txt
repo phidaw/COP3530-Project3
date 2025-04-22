@@ -3,11 +3,10 @@ project(P3)
 
 set(CMAKE_CXX_STANDARD 14)
 
-#set(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Werror") # remove -Wall if you don't want as many warnings treated as errors
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
-
 set(TEST src/Maze/Example/PrintMaze.h
-        src/Traversal/Algorithms/A-star/Example/PrintAStar.h)
+        src/Traversal/Algorithms/Example/PrintAStar.h
+        src/Traversal/Algorithms/Example/PrintBFS.h
+        src/Traversal/Algorithms/Example/PrintDijkstra.h)
 
 set(SOURCES src/Tools/CompassDir/CompassDir.h
         src/Graph/Cell.h
@@ -31,6 +30,9 @@ set(SOURCES src/Tools/CompassDir/CompassDir.h
         src/Tools/RadixHeap/RadixHeapDouble.h
         src/Tools/RadixHeap/RadixHeapTriple.cpp
         src/Tools/RadixHeap/RadixHeapTriple.h
+        src/Traversal/Algorithms/Dijsktras/Dijkstra.cpp
+        src/Traversal/Algorithms/BFS/BFS.h
+        src/Traversal/Algorithms/BFS/BFS.cpp
 )
 
 add_executable(Maze src/Maze/Example/main.cpp
@@ -38,12 +40,12 @@ add_executable(Maze src/Maze/Example/main.cpp
         ${TEST}
 )
 
-add_executable(A-Star src/Traversal/Algorithms/A-star/Example/main.cpp
+add_executable(Algorithms src/Traversal/Algorithms/Example/main.cpp
         ${SOURCES}
         ${TEST}
 )
 
-add_executable(MazeAgents_AStar src/Traversal/Agents/Example/main.cpp
+add_executable(Agents src/Traversal/Agents/Example/main.cpp
         ${SOURCES}
         ${TEST}
         src/Traversal/Agents/AgentManager.h

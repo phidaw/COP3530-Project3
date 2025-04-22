@@ -8,6 +8,7 @@
 class DijkstraAgent : public TraversalAgent
 {
     void UpdateVisuals() override;
+    void UpdateTimer() override;
 public:
     DijkstraAgent(Cell* startCell) {
         currCell = startCell;
