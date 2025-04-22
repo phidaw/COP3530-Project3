@@ -3,7 +3,7 @@ project(P3)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SFML_DIR "C:/Libraries/SFML-2.5.1/lib/cmake/SFML")
+set(SFML_DIR "resources/SFML-2.5.1/lib/cmake/SFML")
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 set(TEST src/Maze/Example/PrintMaze.h
