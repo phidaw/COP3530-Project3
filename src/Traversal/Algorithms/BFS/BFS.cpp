@@ -1,8 +1,8 @@
 #include <queue>
 #include <unordered_map>
-#include "../../../Graph/Cell.h"
-#include "../../../Maze/Maze.h"
-#include "../../PathUtilities/PathUtilities.h"
+#include "../../Graph/Cell.h"
+#include "../../Maze/Maze.h"
+#include "../PathUtilities/PathUtilities.h"
 #include "BFS.h"
 
 using std::queue;
