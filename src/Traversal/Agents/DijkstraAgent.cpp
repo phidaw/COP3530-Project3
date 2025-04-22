@@ -1,6 +1,7 @@
 #include <future>
 #include "../../Maze/Maze.h"
 #include "../Algorithms/A-star/A_Star.h"
+#include "../Dijsktras/Dijkstra.h"
 #include "DijkstraAgent.h"
 
 void DijkstraAgent::UpdateVisuals()
@@ -17,18 +18,24 @@ std::future<vector<Cell*>> DijkstraAgent::CalculatePath(Mode mode, Maze& maze)
         return std::async(std::launch::async,
             [this, &maze]()
             {
-                Cell* target = CalculateUtility(maze);
+                const unordered_set<Collectable*> items = maze.graph.
+                    regionMap.GetNearbyCollectables(currCell);
 
-                // todo: replace A_Star with Dijkstra
-                return A_Star::FindPath(maze, currCell, target);
+                // assign cells of all nearby items and maze exit as targets
+                vector<Cell*> targets(items.size()+1);
+                int i = 0;
+                for (const auto* item : items)
+                    targets[i++] = item->occupiedCell;
+                targets[i] = maze.end;
+
+                return Dijkstra::FindPath(maze, currCell, targets);
             });
     }
 
-    // simple mode w/ no collectables, so no need to limit path
+    // simple mode w/ no collectables
     return std::async(std::launch::async,
         [&maze]()
         {
-            // todo: replace A_Star with Dijkstra
-            return A_Star::FindPath(maze, maze.start, maze.end);
+            return Dijkstra::FindPath(maze, maze.start, {maze.end});
         });
 }

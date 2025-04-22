@@ -1,7 +1,7 @@
 #include <future>
 #include "../../Maze/Maze.h"
 #include "../Algorithms/A-star/A_Star.h"
-#include "AStarAgent.h"
+#include "../BFS/BFS.h"
 #include "BFSAgent.h"
 
 void BFSAgent::UpdateVisuals()
@@ -19,17 +19,14 @@ std::future<vector<Cell*>> BFSAgent::CalculatePath(Mode mode, Maze& maze)
             [this, &maze]()
             {
                 Cell* target = CalculateUtility(maze);
-
-                // todo: replace A_Star with BFS
-                return A_Star::FindPath(maze, currCell, target);
+                return BFS::FindPath(maze, currCell, target);
             });
     }
 
-    // simple mode w/ no collectables, so no need to limit path
+    // simple mode w/ no collectables
     return std::async(std::launch::async,
         [&maze]()
         {
-            // todo: replace A_Star with BFS
-            return A_Star::FindPath(maze, maze.start, maze.end);
+            return BFS::FindPath(maze, maze.start, maze.end);
         });
 }

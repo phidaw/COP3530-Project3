@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
-#include "../../../Graph/Cell.h"
-#include "../../../Maze/Maze.h"
+#include "../../Graph/Cell.h"
+#include "../../Maze/Maze.h"
 
 using std::vector;
 using std::unordered_map;

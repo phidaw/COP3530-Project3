@@ -1,17 +1,15 @@
 #pragma once
 #include <iostream>
 #include <iomanip>
-#include <string>
 #include <vector>
-#include "../../../../Maze/Maze.h"
-#include "../../../../Graph/Cell.h"
-#include "../A_Star.h"
+#include "../../../Maze/Maze.h"
+#include "../../../Graph/Cell.h"
+#include "../A-star/A_Star.h"
 
 using std::cout;
 using std::endl;
 using std::setw;
 using std::right;
-using std::string;
 using std::vector;
 
 struct PrintAStar
