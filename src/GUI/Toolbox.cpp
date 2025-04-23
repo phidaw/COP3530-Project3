@@ -239,6 +239,7 @@ void Toolbox::changeMazeSize(int newSize) {
     for (auto& row : mazeTiles) {
         row.resize(newSize, sf::Sprite{});
     }
+    mazeTilesTypes.resize(newSize);
 }
 void Toolbox::setMazeSprites(sf::Sprite newSprite) {
     for (auto& row : mazeTiles) {
