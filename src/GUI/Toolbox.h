@@ -60,6 +60,9 @@ class Toolbox {
     sf::Texture MiniMazeSnakeTexture;
     sf::Texture MazeSnakeHeadTexture;
     sf::Texture MazeSnakeHeadTexture16;
+    sf::Texture CancelTexture;
+    sf::Sprite ComplicatedConfirmSprite;
+    sf::Sprite CancelSprite;
 
 public:
     sf::RenderWindow window;
@@ -75,6 +78,8 @@ public:
     Button* AStarButton;
     Button* BFSButton;
     Button* ConfirmButton;
+    Button* ComplicatedConfirmButton;
+    Button* ComplicateCancelButton;
     int temp;
     static Toolbox &getInstance(AgentManager& manager);
     void changeMazeSize(int newSize);
