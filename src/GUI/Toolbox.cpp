@@ -5,6 +5,9 @@
 #include <SFML/Graphics.hpp>
 #include "MazeStuff.h"
 #include "Button.h"
+#include "../../Traversal/Agents/AStarAgent.h"
+#include "../../Traversal/BFSAgent.h"
+#include "../../Traversal/DijkstraAgent.h"
 
 Toolbox* Toolbox::instance = nullptr;
 
