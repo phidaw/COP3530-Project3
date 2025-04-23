@@ -99,6 +99,18 @@ void render(){
     int tilesize = 32;
     for (auto& rows : toolbox.mazeTiles) {
         for (auto& sprites : rows) {
+            if (toolbox.MazeSize <= 29 && toolbox.Mazesize > 0){
+                tilesize = 32;
+                if (sprites.getTexture() != toolbox.MazeTileSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeTileSprite;
+                }
+                else if (sprites.getTexture() != toolbox.MazePathSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazePathSprite;
+                }
+                else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeSnakeBodySprite;
+                }
+            }
             if (toolbox.MazeSize > 29 && toolbox.MazeSize <= 59) {
                 tilesize = 16;
                 if (sprites.getTexture() != toolbox.MazeTileSprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
