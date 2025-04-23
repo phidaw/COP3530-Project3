@@ -110,6 +110,9 @@ void render(){
                 else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprites = toolbox.MazeSnakeBodySprite;
                 }
+                else if (sprites.getTexture() != toolbox.MazeSnakeHeadSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeSnakeHeadSprite;
+                }
             }
             if (toolbox.MazeSize > 29 && toolbox.MazeSize <= 59) {
                 tilesize = 16;
@@ -121,6 +124,9 @@ void render(){
                 }
                 else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprites = toolbox.MazeSnakeBodySprite16;
+                }
+                else if (sprites.getTexture() != toolbox.MazeSnakeHeadSprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeSnakeHeadSprite16;
                 }
             }
             else if (toolbox.MazeSize > 59 && toolbox.MazeSize <= 118) {
@@ -134,6 +140,9 @@ void render(){
                 else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprites = toolbox.MazeSnakeBodySprite8;
                 }
+                else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeSnakeBodySprite8;
+                }
             }
             else if (toolbox.MazeSize > 118 && toolbox.MazeSize <= 317) {
                 tilesize = 3;
@@ -142,6 +151,9 @@ void render(){
                 }
                 else if (sprites.getTexture() != toolbox.MiniMazePathSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprite = toolbox.MiniMazePathSprite;
+                }
+                else if (sprites.getTexture() != toolbox.MiniMazeSnakeSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprite = toolbox.MiniMazeSnakeSprite;
                 }
                 else if (sprites.getTexture() != toolbox.MiniMazeSnakeSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprite = toolbox.MiniMazeSnakeSprite;
