@@ -7,8 +7,8 @@
 #include "Button.h"
 #include <string>
 #include "../../Traversal/Agents/AStarAgent.h"
-#include "../../Traversal/BFSAgent.h"
-#include "../../Traversal/DijkstraAgent.h"
+#include "../../Traversal/Agents/BFSAgent.h"
+#include "../../Traversal/Agents/DijkstraAgent.h"
 
 Toolbox* Toolbox::instance = nullptr;
 
