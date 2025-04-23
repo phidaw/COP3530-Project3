@@ -77,7 +77,7 @@ std::future<std::vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
     }
 
     return std::async(std::launch::async,
-                      [this, &maze, &toolbox]()
+                      [this, &maze]()
                       {
                           const auto start = std::chrono::high_resolution_clock::now();
                           auto path = A_Star::FindPath(maze, maze.start, maze.end);
