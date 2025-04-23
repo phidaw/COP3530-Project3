@@ -26,6 +26,9 @@ void DijkstraAgent::UpdateVisuals(const std::vector<Cell*>& path)
             sf::Sprite sprite;
             const std::string& tileType = toolbox.mazeTilesTypes[y][x];
 
+            sf::Sprite sprite;
+            const std::string& tileType = toolbox.mazeTilesTypes[y][x];
+
             if (tileType == "head") {
                 if (tileSize == 32) sprite = toolbox.MazeSnakeHeadSprite;
                 else if (tileSize == 16) sprite = toolbox.MazeSnakeHeadSprite16;
