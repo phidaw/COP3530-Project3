@@ -94,33 +94,56 @@ void render(){
      */
     int x = 0;
     int y = 0; // 29 is limit for 32 bit by 32 bit tiles
+    int xTypes = 0;
+    int yTypes = 0;
     int tilesize = 32;
     for (auto& rows : toolbox.mazeTiles) {
         for (auto& sprites : rows) {
             if (toolbox.MazeSize > 29 && toolbox.MazeSize <= 59) {
                 tilesize = 16;
-                if (sprites.getTexture() != toolbox.MazeTileSprite16.getTexture()) { //Change this later to checking size or something
-                    toolbox.setMazeSprites(toolbox.MazeTileSprite16);
+                if (sprites.getTexture() != toolbox.MazeTileSprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeTileSprite16;
+                }
+                else if (sprites.getTexture() != toolbox.MazePathSprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazePathSprite16;
+                }
+                else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeSnakeBodySprite16;
                 }
             }
             else if (toolbox.MazeSize > 59 && toolbox.MazeSize <= 118) {
                 tilesize = 8;
-                if (sprites.getTexture() != toolbox.MazeTileSprite8.getTexture()) {
-                    toolbox.setMazeSprites(toolbox.MazeTileSprite8);
+                if (sprites.getTexture() != toolbox.MazeTileSprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeTileSprite8;
+                }
+                else if (sprites.getTexture() != toolbox.MazePathSprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazePathSprite8;
+                }
+                else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprites = toolbox.MazeSnakeBodySprite8;
                 }
             }
             else if (toolbox.MazeSize > 118 && toolbox.MazeSize <= 317) {
                 tilesize = 3;
-                if (sprites.getTexture() != toolbox.MiniMazeTileSprite.getTexture()) {
-                    toolbox.setMazeSprites(toolbox.MiniMazeTileSprite);
+                if (sprites.getTexture() != toolbox.MiniMazeTileSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprite = toolbox.MiniMazeTileSprite;
+                }
+                else if (sprites.getTexture() != toolbox.MiniMazePathSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprite = toolbox.MiniMazePathSprite;
+                }
+                else if (sprites.getTexture() != toolbox.MiniMazeSnakeSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                    sprite = toolbox.MiniMazeSnakeSprite;
                 }
             }
             sprites.setPosition(x, y);
             toolbox.window.draw(sprites);
             x += tilesize;
+            xTypes += 1;
         }
         y += tilesize;
+        yTypes += 1;
         x = 0;
+        xTypes = 0;
     }
 
     sf::Font font;
