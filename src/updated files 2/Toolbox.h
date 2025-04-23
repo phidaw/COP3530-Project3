@@ -11,6 +11,8 @@
 #include "MazeStuff.h"
 #include "../../Maze/Maze.h"
 
+class AgentManager; // Forward declaration for AgentManager
+
 class Toolbox {
     Toolbox();
     static Toolbox* instance;
@@ -77,11 +79,23 @@ public:
     static Toolbox &getInstance();
     void changeMazeSize(int newSize);
     void setMazeSprites(sf::Sprite newSprite);
+    void addDijkstraAgent();
+    void addAStarAgent();
+    void addBFSAgent();
+    void oneUp();
+    void fiveUp();
+    void tenUp();
+    void hundredUp();
+    void oneDown();
+    void fiveDown();
+    void tenDown();
+    void hundredDown();
+    void confirmation();
     int MazeSize;
     int placeHolder;
     std::vector<std::vector<sf::Sprite>> mazeTiles;
     std::vector<std::vector<std::string>> mazeTilesTypes;
-    std::map<std::string, std::vector<Cell*>> totalAgentPaths; // Added to store total paths
+    std::map<std::string, std::vector<Cell*>> totalAgentPaths;
     sf::Sprite MazeTileSprite;
     sf::Sprite MazeTileSprite16;
     sf::Sprite MazeTileSprite8;
@@ -97,9 +111,12 @@ public:
     sf::Sprite MazeSnakeHeadSprite;
     sf::Sprite MazeSnakeHeadSprite16;
     std::string getMazeTilesTypesString() const;
-    void appendAgentPath(const std::string& agentName, const std::vector<Cell*>& path); // Added
-    const std::vector<Cell*>& getAgentPath(const std::string& agentName) const; // Added
-    void clearAgentPaths(); // Added to reset paths
+    void appendAgentPath(const std::string& agentName, const std::vector<Cell*>& path);
+    const std::vector<Cell*>& getAgentPath(const std::string& agentName) const;
+    void clearAgentPaths();
+
+private:
+    AgentManager& agentManager; // Reference to AgentManager
 };
 
 #endif //TOOLBOX_H

@@ -27,13 +27,13 @@ Toolbox::Toolbox() {
     FiveDownButton = new Button(sf::Vector2f(1160, 140), [this]{fiveDown();});
     TenDownButton = new Button(sf::Vector2f(1120, 140), [this]{tenDown();});
     HundredDownButton = new Button(sf::Vector2f(1080, 140), [this]{hundredDown();});
-    DijkstraButton = new Button(sf::Vector2f(1200, 300), [this]{PlaceHolder();});
-    AStarButton = new Button(sf::Vector2f(1200, 450), [this]{PlaceHolder();});
-    BFSButton = new Button(sf::Vector2f(1200, 600), [this]{PlaceHolder();});
+    DijkstraButton = new Button(sf::Vector2f(1200, 300), [this]{addDijkstraAgent();});
+    AStarButton = new Button(sf::Vector2f(1200, 450), [this]{addAStarAgent();});
+    BFSButton = new Button(sf::Vector2f(1200, 600), [this]{addBFSAgent();});
     ConfirmButton = new Button(sf::Vector2f(1260, 180), [this]{confirmation();});
     mazeTiles = std::vector(MazeSize, std::vector<sf::Sprite>(MazeSize, sf::Sprite{}));
     mazeTilesTypes.resize(MazeSize, std::vector<std::string>(MazeSize, std::string()));
-    totalAgentPaths = std::map<std::string, std::vector<Cell*>>(); // Initialize totalAgentPaths
+    totalAgentPaths = std::map<std::string, std::vector<Cell*>>();
     if (!OneUpTexture.loadFromFile("resources/images/1Up.png")) {
         std::cerr << "Failed to load 1Up texture";
     } else {
@@ -122,7 +122,7 @@ Toolbox::Toolbox() {
         BFSButton->setSprite(&BFSSprite);
     }
     if (!ConfirmTexture.loadFromFile("resources/images/ConfirmButton.png")) {
-        std::cerr << "Failed to load Confirm texture";
+        ška: std::cerr << "Failed to load Confirm texture";
     } else {
         ConfirmSprite.setTexture(ConfirmTexture);
         ConfirmSprite.setPosition(ConfirmButton->getPosition());
@@ -200,6 +200,27 @@ Toolbox::Toolbox() {
     }
 }
 
+void Toolbox::addDijkstraAgent() {
+    static int dijkstraCount = 0;
+    DijkstraAgent* agent = new DijkstraAgent("Dijkstra" + std::to_string(++dijkstraCount));
+    // Assuming there's a global or accessible AgentManager instance
+    // This requires AgentManager to be accessible, e.g., via a singleton or passed instance
+    // For now, assuming a hypothetical global agentManager
+    agentManager.AddAgent(*agent);
+}
+
+void Toolbox::addAStarAgent() {
+    static int aStarCount = 0;
+    AStarAgent* agent = new AStarAgent("AStar" + std::to_string(++aStarCount));
+    agentManager.AddAgent(*agent);
+}
+
+void Toolbox::addBFSAgent() {
+    static int bfsCount = 0;
+    BFSAgent* agent = new BFSAgent("BFS" + std::to_string(++bfsCount));
+    agentManager.AddAgent(*agent);
+}
+
 Toolbox &Toolbox::getInstance() {
     if (instance == nullptr) {
         instance = new Toolbox();
@@ -239,7 +260,6 @@ std::string Toolbox::getMazeTilesTypesString() const {
 void Toolbox::appendAgentPath(const std::string& agentName, const std::vector<Cell*>& path) {
     auto& totalPath = totalAgentPaths[agentName];
     if (!path.empty()) {
-        // Append path, excluding the first cell if it matches the last cell of the current total path
         size_t startIndex = (totalPath.empty() || path[0] != totalPath.back()) ? 0 : 1;
         totalPath.insert(totalPath.end(), path.begin() + startIndex, path.end());
     }

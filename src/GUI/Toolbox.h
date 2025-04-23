@@ -4,15 +4,17 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <functional>
-#include <SFML/Graphics.hpp>
-#include "MazeStuff.h"
-#include "Button.h"
+#include <map>
 #include <string>
+#include <vector>
+#include "Button.h"
+#include "MazeStuff.h"
+#include "../../Maze/Maze.h"
+
+class AgentManager; // Forward declaration for AgentManager
 
 class Toolbox {
-
-
-    Toolbox();
+    Toolbox(AgentManager& manager);
     static Toolbox* instance;
     friend class Button;
     friend class MazeStuff;
@@ -58,11 +60,6 @@ class Toolbox {
     sf::Texture MiniMazeSnakeTexture;
     sf::Texture MazeSnakeHeadTexture;
     sf::Texture MazeSnakeHeadTexture16;
-    sf::Texture CancelTexture;
-    sf::Sprite CancelSprite;
-    sf::Sprite ComplicatedConfirmSprite;
-
-
 
 public:
     sf::RenderWindow window;
@@ -78,20 +75,27 @@ public:
     Button* AStarButton;
     Button* BFSButton;
     Button* ConfirmButton;
-    Button* ComplicatedConfirmButton;
-    Button* ComplicateCancelButton;
-    /*Tiles* MazeTile; //32, 16, 8, 3 bits for sizes? all done!
-    Tiles* MazePath;
-    Tiles* MazeSnakeBody;
-    Tiles* MazeSnakeHead;*/
     int temp;
-    static Toolbox &getInstance();
+    static Toolbox &getInstance(AgentManager& manager);
     void changeMazeSize(int newSize);
     void setMazeSprites(sf::Sprite newSprite);
+    void addDijkstraAgent();
+    void addAStarAgent();
+    void addBFSAgent();
+    void oneUp();
+    void fiveUp();
+    void tenUp();
+    void hundredUp();
+    void oneDown();
+    void fiveDown();
+    void tenDown();
+    void hundredDown();
+    void confirmation();
     int MazeSize;
     int placeHolder;
     std::vector<std::vector<sf::Sprite>> mazeTiles;
     std::vector<std::vector<std::string>> mazeTilesTypes;
+    std::map<std::string, std::vector<Cell*>> totalAgentPaths;
     sf::Sprite MazeTileSprite;
     sf::Sprite MazeTileSprite16;
     sf::Sprite MazeTileSprite8;
@@ -106,10 +110,13 @@ public:
     sf::Sprite MiniMazeSnakeSprite;
     sf::Sprite MazeSnakeHeadSprite;
     sf::Sprite MazeSnakeHeadSprite16;
+    std::string getMazeTilesTypesString() const;
+    void appendAgentPath(const std::string& agentName, const std::vector<Cell*>& path);
+    const std::vector<Cell*>& getAgentPath(const std::string& agentName) const;
+    void clearAgentPaths();
 
-
+private:
+    AgentManager& agentManager; // Reference to AgentManager
 };
-
-
 
 #endif //TOOLBOX_H

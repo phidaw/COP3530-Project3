@@ -3,20 +3,19 @@
 #include "../Algorithms/A-star/A_Star.h"
 #include "AStarAgent.h"
 
-void AStarAgent::UpdateVisuals()
+void AStarAgent::UpdateVisuals(const std::vector<Cell*>& path)
 {
     Toolbox& toolbox = Toolbox::getInstance();
+    toolbox.appendAgentPath(name, path); // Moved path appending here
     int tileSize = 32;
     if (toolbox.MazeSize > 29 && toolbox.MazeSize <= 59) tileSize = 16;
     else if (toolbox.MazeSize > 59 && toolbox.MazeSize <= 118) tileSize = 8;
     else if (toolbox.MazeSize > 118 && toolbox.MazeSize <= 317) tileSize = 3;
 
-    // Reset mazeTilesTypes to default (optional, to clear old paths)
     for (auto& row : toolbox.mazeTilesTypes) {
         std::fill(row.begin(), row.end(), "");
     }
 
-    // Mark all cells in the total path
     const auto& totalPath = toolbox.getAgentPath(name);
     for (size_t i = 0; i < totalPath.size(); ++i) {
         Cell* cell = totalPath[i];
@@ -25,7 +24,6 @@ void AStarAgent::UpdateVisuals()
         }
     }
 
-    // Update mazeTiles based on mazeTileTypes
     for (int y = 0; y < toolbox.MazeSize; ++y) {
         for (int x = 0; x < toolbox.MazeSize; ++x) {
             sf::Sprite sprite;
@@ -63,7 +61,7 @@ std::future<std::vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
     if (mode == TraversalAgent::Mode::collecting)
     {
         return std::async(std::launch::async,
-                          [this, &maze, &toolbox]()
+                          [this, &maze]()
                           {
                               Cell* target = CalculateUtility(maze);
                               const auto start = std::chrono::high_resolution_clock::now();
@@ -71,7 +69,6 @@ std::future<std::vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
                               const auto end = std::chrono::high_resolution_clock::now();
                               const std::chrono::duration<double, std::milli> elapsed = end - start;
                               totalTimeSpent += elapsed.count();
-                              toolbox.appendAgentPath(name, path);
                               return path;
                           });
     }
@@ -84,7 +81,6 @@ std::future<std::vector<Cell*>> AStarAgent::CalculatePath(Mode mode, Maze& maze)
                           const auto end = std::chrono::high_resolution_clock::now();
                           const std::chrono::duration<double, std::milli> elapsed = end - start;
                           totalTimeSpent += elapsed.count();
-                          toolbox.appendAgentPath(name, path);
                           return path;
                       });
 }

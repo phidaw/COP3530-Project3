@@ -4,25 +4,23 @@
 #include "../Algorithms/Dijsktras/Dijkstra.h"
 #include "DijkstraAgent.h"
 
-void DijkstraAgent::UpdateVisuals()
+void DijkstraAgent::UpdateVisuals(const std::vector<Cell*>& path)
 {
     Toolbox& toolbox = Toolbox::getInstance();
+    toolbox.appendAgentPath(name, path); // Moved path appending here
     int tileSize = 32;
     if (toolbox.MazeSize > 29 && toolbox.MazeSize <= 59) tileSize = 16;
     else if (toolbox.MazeSize > 59 && toolbox.MazeSize <= 118) tileSize = 8;
     else if (toolbox.MazeSize > 118 && toolbox.MazeSize <= 317) tileSize = 3;
 
-    // Update mazeTileTypes for current cell (agent's head)
     if (currCell && currCell->pos->x < toolbox.MazeSize && currCell->pos->y < toolbox.MazeSize) {
         toolbox.mazeTilesTypes[currCell->pos->y][currCell->pos->x] = "head";
     }
 
-    // Update mazeTileTypes for previous cell (path)
     if (prevCell && prevCell->pos->x < toolbox.MazeSize && prevCell->pos->y < toolbox.MazeSize) {
         toolbox.mazeTilesTypes[prevCell->pos->y][prevCell->pos->x] = "path";
     }
 
-    // Update mazeTiles based on mazeTileTypes
     for (int y = 0; y < toolbox.MazeSize; ++y) {
         for (int x = 0; x < toolbox.MazeSize; ++x) {
             sf::Sprite sprite;
@@ -62,9 +60,9 @@ std::future<std::vector<Cell*>> DijkstraAgent::CalculatePath(Mode mode, Maze& ma
     if (mode == TraversalAgent::Mode::collecting)
     {
         return std::async(std::launch::async,
-                          [this, &maze, &toolbox]()
+                          [this, &maze]()
                           {
-                              const unordered_set<Collectable*> items = maze.graph.regionMap.GetNearbyCollectables(currCell);
+                              const std::unordered_set<Collectable*> items = maze.graph.regionMap.GetNearbyCollectables(currCell);
                               std::vector<Cell*> targets(items.size()+1);
                               int i = 0;
                               for (auto* item : items)
@@ -78,20 +76,18 @@ std::future<std::vector<Cell*>> DijkstraAgent::CalculatePath(Mode mode, Maze& ma
                               const auto end = std::chrono::high_resolution_clock::now();
                               const std::chrono::duration<double, std::milli> elapsed = end - start;
                               totalTimeSpent += elapsed.count();
-                              toolbox.appendAgentPath(name, path); // Append the path
                               return path;
                           });
     }
 
     return std::async(std::launch::async,
-                      [this, &maze, &toolbox]()
+                      [this, &maze]()
                       {
                           const auto start = std::chrono::high_resolution_clock::now();
                           auto path = Dijkstra::FindPath(maze, maze.start, {maze.end});
                           const auto end = std::chrono::high_resolution_clock::now();
                           const std::chrono::duration<double, std::milli> elapsed = end - start;
                           totalTimeSpent += elapsed.count();
-                          toolbox.appendAgentPath(name, path); // Append the path
                           return path;
                       });
 }
