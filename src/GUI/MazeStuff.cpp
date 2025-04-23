@@ -105,7 +105,7 @@ void render(){
                 if (sprites.getTexture() != toolbox.MazeTileSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprites = toolbox.MazeTileSprite;
                 }
-                else if (sprites.getTexture() != toolbox.MazePathSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                else if (sprites.getTexture() != toolbox.MazePathSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "placeHolder") {
                     sprites = toolbox.MazePathSprite;
                 }
                 else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "path") {
@@ -120,7 +120,7 @@ void render(){
                 if (sprites.getTexture() != toolbox.MazeTileSprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprites = toolbox.MazeTileSprite16;
                 }
-                else if (sprites.getTexture() != toolbox.MazePathSprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                else if (sprites.getTexture() != toolbox.MazePathSprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "placeHolder") {
                     sprites = toolbox.MazePathSprite16;
                 }
                 else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite16.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "path") {
@@ -135,7 +135,7 @@ void render(){
                 if (sprites.getTexture() != toolbox.MazeTileSprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprites = toolbox.MazeTileSprite8;
                 }
-                else if (sprites.getTexture() != toolbox.MazePathSprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                else if (sprites.getTexture() != toolbox.MazePathSprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "placeHolder") {
                     sprites = toolbox.MazePathSprite8;
                 }
                 else if (sprites.getTexture() != toolbox.MazeSnakeBodySprite8.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "path") {
@@ -150,7 +150,7 @@ void render(){
                 if (sprites.getTexture() != toolbox.MiniMazeTileSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
                     sprites = toolbox.MiniMazeTileSprite;
                 }
-                else if (sprites.getTexture() != toolbox.MiniMazePathSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "") {
+                else if (sprites.getTexture() != toolbox.MiniMazePathSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "placeHolder") {
                     sprites = toolbox.MiniMazePathSprite;
                 }
                 else if (sprites.getTexture() != toolbox.MiniMazeSnakeSprite.getTexture() && toolbox.mazeTilesTypes[xTypes][yTypes] == "path") {
