@@ -232,15 +232,6 @@ void Toolbox::addBFSAgent() {
     agentManager.AddAgent(std::move(agent));
 }
 
-void Toolbox::oneUp() { temp += 1; }
-void Toolbox::fiveUp() { temp += 5; }
-void Toolbox::tenUp() { temp += 10; }
-void Toolbox::hundredUp() { temp += 100; }
-void Toolbox::oneDown() { temp -= 1; }
-void Toolbox::fiveDown() { temp -= 5; }
-void Toolbox::tenDown() { temp -= 10; }
-void Toolbox::hundredDown() { temp -= 100; }
-void Toolbox::confirmation() { MazeSize = temp; changeMazeSize(MazeSize); }
 
 Toolbox &Toolbox::getInstance(AgentManager& manager) {
     if (instance == nullptr) {
@@ -256,6 +247,9 @@ void Toolbox::changeMazeSize(int newSize) {
         row.resize(newSize, sf::Sprite{});
     }
     mazeTilesTypes.resize(newSize);
+    for (auto& row : mazeTilesTypes){
+        row.resize(newSize, std::string("");
+    }
 }
 
 void Toolbox::setMazeSprites(sf::Sprite newSprite) {
