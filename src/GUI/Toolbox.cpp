@@ -32,6 +32,8 @@ Toolbox::Toolbox(AgentManager& manager) : agentManager(manager) {
     AStarButton = new Button(sf::Vector2f(1200, 450), [this]{addAStarAgent();});
     BFSButton = new Button(sf::Vector2f(1200, 600), [this]{addBFSAgent();});
     ConfirmButton = new Button(sf::Vector2f(1260, 180), [this]{confirmation();});
+    ComplicatedConfirmButton = new Button(sf::Vector2f(1240, 800), [this]{PlaceHolder();});
+    ComplicateCancelButton = new Button(sf::Vector2f(1280, 800), [this]{PlaceHolder();});
     mazeTiles = std::vector(MazeSize, std::vector<sf::Sprite>(MazeSize, sf::Sprite{}));
     mazeTilesTypes.resize(MazeSize, std::vector<std::string>(MazeSize, std::string()));
     totalAgentPaths = std::map<std::string, std::vector<Cell*>>();
@@ -126,8 +128,11 @@ Toolbox::Toolbox(AgentManager& manager) : agentManager(manager) {
         std::cerr << "Failed to load Confirm texture";
     } else {
         ConfirmSprite.setTexture(ConfirmTexture);
+        ComplicatedConfirmSprite.setTexture(ConfirmTexture);
         ConfirmSprite.setPosition(ConfirmButton->getPosition());
+        ComplicatedConfirmSprite.setPosition(ComplicatedConfirmButton->getPosition());
         ConfirmButton->setSprite(&ConfirmSprite);
+        ComplicatedConfirmButton->setSprite(&ComplicatedConfirmSprite);
     }
     if (!MazeTileTexture.loadFromFile("resources/images/MazeTile.png")) {
         std::cerr << "Failed to load Maze Tile texture";
@@ -198,6 +203,14 @@ Toolbox::Toolbox(AgentManager& manager) : agentManager(manager) {
         std::cerr << "Failed to load Maze Snake Head 16 bit texture";
     } else {
         MazeSnakeHeadSprite16.setTexture(MazeSnakeHeadTexture16);
+    }
+    if (!CancelTexture.loadFromFile("images/CancelButton.png")) {
+        std::cerr << "Failed to load Cancel texture";
+    }
+    else {
+        CancelSprite.setTexture(CancelTexture);
+        CancelSprite.setPosition(ComplicateCancelButton->getPosition());
+        ComplicateCancelButton->setSprite(&CancelSprite);
     }
 }
 
