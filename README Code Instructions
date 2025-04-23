@@ -1,3 +1,4 @@
 Get code into environment in which it can run (Clion, etc.)
+Potentially change in CMake the project name and change the same name in target_link_libraries to allow for SFML to work
 Use main in GUI folder
 Run code
