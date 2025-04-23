@@ -58,7 +58,9 @@ class Toolbox {
     sf::Texture MiniMazeSnakeTexture;
     sf::Texture MazeSnakeHeadTexture;
     sf::Texture MazeSnakeHeadTexture16;
-
+    sf::Texture CancelTexture;
+    sf::Sprite CancelSprite;
+    sf::Sprite ComplicatedConfirmSprite;
 
 
 
@@ -76,6 +78,8 @@ public:
     Button* AStarButton;
     Button* BFSButton;
     Button* ConfirmButton;
+    Button* ComplicatedConfirmButton;
+    Button* ComplicateCancelButton;
     /*Tiles* MazeTile; //32, 16, 8, 3 bits for sizes? all done!
     Tiles* MazePath;
     Tiles* MazeSnakeBody;

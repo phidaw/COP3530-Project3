@@ -29,6 +29,8 @@ Toolbox::Toolbox() {
     AStarButton = new Button(sf::Vector2f(1200, 450), [this]{PlaceHolder();});
     BFSButton = new Button(sf::Vector2f(1200, 600), [this]{PlaceHolder();});
     ConfirmButton = new Button(sf::Vector2f(1260, 180), [this]{confirmation();});
+    ComplicatedConfirmButton = new Button(sf::Vector2f(1240, 800), [this]{PlaceHolder();});
+    ComplicateCancelButton = new Button(sf::Vector2f(1280, 800), [this]{PlaceHolder();});
     mazeTiles = std::vector(MazeSize, std::vector<sf::Sprite>(MazeSize, sf::Sprite{}));
     mazeTilesTypes.resize(MazeSize, std::vector<std::string>(MazeSize, std::string()));
 
@@ -139,8 +141,11 @@ Toolbox::Toolbox() {
     }
     else {
         ConfirmSprite.setTexture(ConfirmTexture);
+        ComplicatedConfirmSprite.setTexture(ConfirmTexture);
         ConfirmSprite.setPosition(ConfirmButton->getPosition());
+        ComplicatedConfirmSprite.setPosition(ComplicatedConfirmButton->getPosition());
         ConfirmButton->setSprite(&ConfirmSprite);
+        ComplicatedConfirmButton->setSprite(&ComplicatedConfirmSprite);
     }
     if (!MazeTileTexture.loadFromFile("resources/images/MazeTile.png")) {
         std::cerr << "Failed to load Maze Tile texture";
@@ -225,6 +230,14 @@ Toolbox::Toolbox() {
     }
     else {
         MazeSnakeHeadSprite16.setTexture(MazeSnakeHeadTexture16);
+    }
+    if (!CancelTexture.loadFromFile("images/CancelButton.png")) {
+        std::cerr << "Failed to load Cancel texture";
+    }
+    else {
+        CancelSprite.setTexture(CancelTexture);
+        CancelSprite.setPosition(ComplicateCancelButton->getPosition());
+        ComplicateCancelButton->setSprite(&CancelSprite);
     }
 }
 Toolbox &Toolbox::getInstance() {

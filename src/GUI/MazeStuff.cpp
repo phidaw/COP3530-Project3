@@ -86,14 +86,14 @@ void render(){
     if (toolbox.ConfirmButton->getSprite()) {
         toolbox.window.draw(*toolbox.ConfirmButton->getSprite());
     }
-    //For maze rendering
-    /*
-     for (vector i : MazeThing){ MazeThing maybe be vector(vector(sf::sprite))
-        for (sf::Sprite k : i){}
-     }
-     */
-    int x = 0;
-    int y = 0; // 29 is limit for 32 bit by 32 bit tiles
+    if (toolbox.ComplicatedConfirmButton->getSprite()) {
+        toolbox.window.draw(*toolbox.ComplicatedConfirmButton->getSprite());
+    }
+    if (toolbox.ComplicateCancelButton->getSprite()) {
+        toolbox.window.draw(*toolbox.ComplicateCancelButton->getSprite());
+    }
+    
+    int y = 0;
     int xTypes = 0;
     int yTypes = 0;
     int tilesize = 32;
@@ -178,6 +178,9 @@ void render(){
     sf::Text Question("Enter dimension of square maze: ", font, 20);
     Question.setPosition(1130, 100);
     toolbox.window.draw(Question);
+    sf::Text QuestionComp("Collectable Mode", font, 20);
+    QuestionComp.setPosition(1190, 770);
+    toolbox.window.draw(QuestionComp);
 
     toolbox.window.display();
 }
@@ -233,7 +236,12 @@ void gameLoop(){
             if (toolbox.ConfirmButton->getSprite() && toolbox.ConfirmButton->getSprite()->getGlobalBounds().contains(mouseSpot.x, mouseSpot.y)) {
                 toolbox.ConfirmButton->onClick();
             }
-
+            if (toolbox.ComplicatedConfirmButton->getSprite() && toolbox.ComplicatedConfirmButton->getSprite()->getGlobalBounds().contains(mouseSpot.x, mouseSpot.y)) {
+                toolbox.ComplicatedConfirmButton->onClick();
+            }
+            if (toolbox.ComplicateCancelButton->getSprite() && toolbox.ComplicateCancelButton->getSprite()->getGlobalBounds().contains(mouseSpot.x, mouseSpot.y)) {
+                toolbox.ComplicateCancelButton->onClick();
+            }
         }
     }
 
