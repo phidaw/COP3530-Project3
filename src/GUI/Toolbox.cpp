@@ -204,7 +204,7 @@ Toolbox::Toolbox(AgentManager& manager) : agentManager(manager) {
     } else {
         MazeSnakeHeadSprite16.setTexture(MazeSnakeHeadTexture16);
     }
-    if (!CancelTexture.loadFromFile("images/CancelButton.png")) {
+    if (!CancelTexture.loadFromFile("resources/images/CancelButton.png")) {
         std::cerr << "Failed to load Cancel texture";
     }
     else {
