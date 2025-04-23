@@ -14,7 +14,7 @@
 class AgentManager; // Forward declaration for AgentManager
 
 class Toolbox {
-    Toolbox();
+    Toolbox(AgentManager& manager);
     static Toolbox* instance;
     friend class Button;
     friend class MazeStuff;
@@ -76,7 +76,7 @@ public:
     Button* BFSButton;
     Button* ConfirmButton;
     int temp;
-    static Toolbox &getInstance();
+    static Toolbox &getInstance(AgentManager& manager);
     void changeMazeSize(int newSize);
     void setMazeSprites(sf::Sprite newSprite);
     void addDijkstraAgent();
