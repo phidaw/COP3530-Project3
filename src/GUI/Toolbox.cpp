@@ -15,7 +15,7 @@
 
 Toolbox* Toolbox::instance = nullptr;
 
-Toolbox::Toolbox(AgentManager& manager) : agentManager(manager) {
+Toolbox::Toolbox() {
     window.create(sf::VideoMode(1520, 951), "Maze Maestro");
     MazeSize = 1;
     placeHolder = -1;
@@ -204,7 +204,7 @@ Toolbox::Toolbox(AgentManager& manager) : agentManager(manager) {
     } else {
         MazeSnakeHeadSprite16.setTexture(MazeSnakeHeadTexture16);
     }
-    if (!CancelTexture.loadFromFile("images/CancelButton.png")) {
+    if (!CancelTexture.loadFromFile("resources/images/CancelButton.png")) {
         std::cerr << "Failed to load Cancel texture";
     }
     else {
@@ -216,35 +216,25 @@ Toolbox::Toolbox(AgentManager& manager) : agentManager(manager) {
 
 void Toolbox::addDijkstraAgent() {
     static int dijkstraCount = 0;
-    auto agent = std::make_unique<DijkstraAgent>("Dijkstra" + std::to_string(++dijkstraCount));
-    agentManager.AddAgent(std::move(agent));
+    /*auto agent = std::make_unique<DijkstraAgent>("Dijkstra" + std::to_string(++dijkstraCount));
+    agentManager.AddAgent(std::move(agent));*/
 }
 
 void Toolbox::addAStarAgent() {
     static int aStarCount = 0;
-    auto agent = std::make_unique<AStarAgent>("AStar" + std::to_string(++aStarCount));
-    agentManager.AddAgent(std::move(agent));
+    /*auto agent = std::make_unique<AStarAgent>("AStar" + std::to_string(++aStarCount));
+    agentManager.AddAgent(std::move(agent));*/
 }
 
 void Toolbox::addBFSAgent() {
     static int bfsCount = 0;
-    auto agent = std::make_unique<BFSAgent>("BFS" + std::to_string(++bfsCount));
-    agentManager.AddAgent(std::move(agent));
+    /*auto agent = std::make_unique<BFSAgent>("BFS" + std::to_string(++bfsCount));
+    agentManager.AddAgent(std::move(agent));*/
 }
 
-void Toolbox::oneUp() { temp += 1; }
-void Toolbox::fiveUp() { temp += 5; }
-void Toolbox::tenUp() { temp += 10; }
-void Toolbox::hundredUp() { temp += 100; }
-void Toolbox::oneDown() { temp -= 1; }
-void Toolbox::fiveDown() { temp -= 5; }
-void Toolbox::tenDown() { temp -= 10; }
-void Toolbox::hundredDown() { temp -= 100; }
-void Toolbox::confirmation() { MazeSize = temp; changeMazeSize(MazeSize); }
-
-Toolbox &Toolbox::getInstance(AgentManager& manager) {
+Toolbox &Toolbox::getInstance() {
     if (instance == nullptr) {
-        instance = new Toolbox(manager);
+        instance = new Toolbox();
     }
     return *instance;
 }
@@ -256,6 +246,9 @@ void Toolbox::changeMazeSize(int newSize) {
         row.resize(newSize, sf::Sprite{});
     }
     mazeTilesTypes.resize(newSize);
+    for (auto& row : mazTilesTypes){
+        row.resize(newSize, std::string("")) //Put in quotes here and at declaration of mzaeTilesTypes to set maze to desired sprite base on checks at MazeStuff in render()
+    }
 }
 
 void Toolbox::setMazeSprites(sf::Sprite newSprite) {

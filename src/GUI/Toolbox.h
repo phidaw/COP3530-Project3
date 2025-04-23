@@ -80,22 +80,14 @@ public:
     Button* ConfirmButton;
     Button* ComplicatedConfirmButton;
     Button* ComplicateCancelButton;
+    //AgentManager& manager
     int temp;
-    static Toolbox &getInstance(AgentManager& manager);
+    static Toolbox &getInstance();
     void changeMazeSize(int newSize);
     void setMazeSprites(sf::Sprite newSprite);
     void addDijkstraAgent();
     void addAStarAgent();
     void addBFSAgent();
-    void oneUp();
-    void fiveUp();
-    void tenUp();
-    void hundredUp();
-    void oneDown();
-    void fiveDown();
-    void tenDown();
-    void hundredDown();
-    void confirmation();
     int MazeSize;
     int placeHolder;
     std::vector<std::vector<sf::Sprite>> mazeTiles;
