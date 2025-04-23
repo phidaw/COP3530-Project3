@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 #include "Button.h"
 #include "MazeStuff.h"
 #include "../../Maze/Maze.h"
@@ -14,7 +15,7 @@
 
 Toolbox* Toolbox::instance = nullptr;
 
-Toolbox::Toolbox() {
+Toolbox::Toolbox(AgentManager& manager) : agentManager(manager) {
     window.create(sf::VideoMode(1520, 951), "Maze Maestro");
     MazeSize = 1;
     placeHolder = -1;
@@ -122,7 +123,7 @@ Toolbox::Toolbox() {
         BFSButton->setSprite(&BFSSprite);
     }
     if (!ConfirmTexture.loadFromFile("resources/images/ConfirmButton.png")) {
-        ška: std::cerr << "Failed to load Confirm texture";
+        std::cerr << "Failed to load Confirm texture";
     } else {
         ConfirmSprite.setTexture(ConfirmTexture);
         ConfirmSprite.setPosition(ConfirmButton->getPosition());
@@ -202,28 +203,35 @@ Toolbox::Toolbox() {
 
 void Toolbox::addDijkstraAgent() {
     static int dijkstraCount = 0;
-    DijkstraAgent* agent = new DijkstraAgent("Dijkstra" + std::to_string(++dijkstraCount));
-    // Assuming there's a global or accessible AgentManager instance
-    // This requires AgentManager to be accessible, e.g., via a singleton or passed instance
-    // For now, assuming a hypothetical global agentManager
-    agentManager.AddAgent(*agent);
+    auto agent = std::make_unique<DijkstraAgent>("Dijkstra" + std::to_string(++dijkstraCount));
+    agentManager.AddAgent(std::move(agent));
 }
 
 void Toolbox::addAStarAgent() {
     static int aStarCount = 0;
-    AStarAgent* agent = new AStarAgent("AStar" + std::to_string(++aStarCount));
-    agentManager.AddAgent(*agent);
+    auto agent = std::make_unique<AStarAgent>("AStar" + std::to_string(++aStarCount));
+    agentManager.AddAgent(std::move(agent));
 }
 
 void Toolbox::addBFSAgent() {
     static int bfsCount = 0;
-    BFSAgent* agent = new BFSAgent("BFS" + std::to_string(++bfsCount));
-    agentManager.AddAgent(*agent);
+    auto agent = std::make_unique<BFSAgent>("BFS" + std::to_string(++bfsCount));
+    agentManager.AddAgent(std::move(agent));
 }
 
-Toolbox &Toolbox::getInstance() {
+void Toolbox::oneUp() { temp += 1; }
+void Toolbox::fiveUp() { temp += 5; }
+void Toolbox::tenUp() { temp += 10; }
+void Toolbox::hundredUp() { temp += 100; }
+void Toolbox::oneDown() { temp -= 1; }
+void Toolbox::fiveDown() { temp -= 5; }
+void Toolbox::tenDown() { temp -= 10; }
+void Toolbox::hundredDown() { temp -= 100; }
+void Toolbox::confirmation() { MazeSize = temp; changeMazeSize(MazeSize); }
+
+Toolbox &Toolbox::getInstance(AgentManager& manager) {
     if (instance == nullptr) {
-        instance = new Toolbox();
+        instance = new Toolbox(manager);
     }
     return *instance;
 }
