@@ -87,15 +87,6 @@ public:
     void addDijkstraAgent();
     void addAStarAgent();
     void addBFSAgent();
-    void oneUp();
-    void fiveUp();
-    void tenUp();
-    void hundredUp();
-    void oneDown();
-    void fiveDown();
-    void tenDown();
-    void hundredDown();
-    void confirmation();
     int MazeSize;
     int placeHolder;
     std::vector<std::vector<sf::Sprite>> mazeTiles;
