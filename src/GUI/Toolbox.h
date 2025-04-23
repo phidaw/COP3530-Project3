@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include "MazeStuff.h"
 #include "Button.h"
+#include <string>
 
 class Toolbox {
 
@@ -86,6 +87,7 @@ public:
     int MazeSize;
     int placeHolder;
     std::vector<std::vector<sf::Sprite>> mazeTiles;
+    std::vector<std::vector<std::string>> mazeTilesTypes;
     sf::Sprite MazeTileSprite;
     sf::Sprite MazeTileSprite16;
     sf::Sprite MazeTileSprite8;

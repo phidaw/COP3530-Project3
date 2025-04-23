@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "MazeStuff.h"
 #include "Button.h"
+#include <string>
 #include "../../Traversal/Agents/AStarAgent.h"
 #include "../../Traversal/BFSAgent.h"
 #include "../../Traversal/DijkstraAgent.h"
@@ -29,6 +30,7 @@ Toolbox::Toolbox() {
     BFSButton = new Button(sf::Vector2f(1200, 600), [this]{PlaceHolder();});
     ConfirmButton = new Button(sf::Vector2f(1260, 180), [this]{confirmation();});
     mazeTiles = std::vector(MazeSize, std::vector<sf::Sprite>(MazeSize, sf::Sprite{}));
+    mazeTilesTypes.resize(MazeSize, std::vector<std::string>(MazeSize, std::string()));
 
 
 
